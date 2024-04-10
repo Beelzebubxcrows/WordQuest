@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Configurations;
 using UnityEngine;
+using Utility;
 using Random = System.Random;
 
 namespace Gameboard
@@ -38,6 +39,7 @@ namespace Gameboard
         
         private void InitialiseComponents()
         {
+            InstanceManager.BindInstanceAsSingle(gameplayHandler);
             gameplayHandler.Initialise(_levelConfig);
             foreach (var letterTilesRow in letterTilesRows)
             {
