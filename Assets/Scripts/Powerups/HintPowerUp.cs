@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Gameboard;
 using UnityEngine;
+using UnityEngine.UI;
 using Utility;
 using Utility.Dictionary;
 
@@ -10,6 +10,8 @@ namespace Powerups
 {
     public class HintPowerUp : MonoBehaviour
     {
+        [SerializeField] private Button hintButton;
+        private bool _isHintOnGoing;
         private LetterTileRegistry _tileRegistry;
         private GameplayHandler _gameplayHandler;
         private DictionaryHelper _dictionaryHelper;
@@ -23,6 +25,12 @@ namespace Powerups
 
         public void PlayHint()
         {
+            if (_isHintOnGoing) {
+                return;
+            }
+
+            hintButton.interactable = false;
+            _isHintOnGoing = true;
             _gameplayHandler.ResetLetterTile();
             var tilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
             foreach (var tile in tilesOnBoard)
@@ -44,6 +52,9 @@ namespace Powerups
                 tile.OnClick();
                 yield return new WaitForSeconds(0.35f);
             }
+
+            _isHintOnGoing = false;
+            hintButton.interactable = true;
         }
 
         private List<LetterTile> GetTilesToMakeAValidWord(List<LetterTile> allTilesOnBoard)

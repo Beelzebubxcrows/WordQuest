@@ -6,6 +6,7 @@ namespace Powerups
 {
     public class ShufflePowerUp : MonoBehaviour
     {
+        private bool _shuffleOngoing;
         private LetterTileRegistry _tileRegistry;
         private GameplayHandler _gameplayHandler;
 
@@ -17,6 +18,11 @@ namespace Powerups
         
         public void Shuffle()
         {
+            if (_shuffleOngoing) {
+                return;
+            }
+            
+            _shuffleOngoing = true;
             _gameplayHandler.ResetLetterTile();
             
             var tilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
@@ -31,6 +37,7 @@ namespace Powerups
                 tile.PlayShuffleAnimation();
             }
             InstanceManager.GetInstanceAsSingle<SoundPlayer>().PlayShuffleSound();
+            _shuffleOngoing = false;
         }
     }
 }
