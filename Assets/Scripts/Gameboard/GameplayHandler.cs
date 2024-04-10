@@ -15,7 +15,8 @@ namespace Gameboard
         [SerializeField] private TMP_Text targetText;
         [SerializeField] private TMP_Text matchedWord;
         [SerializeField] private float matchDelay;
-        
+
+        private bool _matchOngoing;
         private DictionaryHelper _dictionaryHelper;
         private StringBuilder _stringBuilder;
         private SoundPlayer _soundPlayer;
@@ -39,18 +40,28 @@ namespace Gameboard
         
         public void AddCharacter(LetterTile clickedTile)
         {
+            if (_matchOngoing) {
+                return;
+            }
+            
+            clickedTile.ToggleOn();
             _tileRegistry.RegisterSelectedTile(clickedTile);
             _stringBuilder.Append(clickedTile.GetCharacter());
             matchedWord.text = _stringBuilder.ToString();
             _soundPlayer.PlayClickSound();
             if (_dictionaryHelper.IsWordValid(_stringBuilder.ToString()))
             {
+                _matchOngoing = true;
                 StartCoroutine(OnMatch());
             }
         }
 
         public void RemoveCharacter()
         {
+            if (_matchOngoing) {
+                return;
+            }
+            
             var clickedTiles = _tileRegistry.GetSelectedTiles();
             foreach (var clickedLetterTile in clickedTiles)
             {
@@ -62,12 +73,16 @@ namespace Gameboard
             movesLeftText.text = _movesLeft.ToString();
         }
 
-        public IEnumerator OnMatch()
+        private IEnumerator OnMatch()
         {
+            yield return new WaitForSeconds(0.1f);
+
             _soundPlayer.PlayMatchSound();
             PlayMatchAnimationOnTiles();
             StartCoroutine(ShowMatchedWord(_stringBuilder.ToString()));
+            
             yield return new WaitForSeconds(matchDelay);
+
             
             _target  -= _stringBuilder.Length;
             targetText.text = _target.ToString();
@@ -81,6 +96,7 @@ namespace Gameboard
             }
             _stringBuilder.Clear();
             _tileRegistry.ClearSelectedTiles();
+            _matchOngoing = false;
         }
 
         private void PlayMatchAnimationOnTiles()

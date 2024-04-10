@@ -35,7 +35,6 @@ namespace Gameboard
             
             Debug.Log($"Clicked on {_character}");
             if (!_isClicked) {
-                ToggleOn();
                 _gameplayHandler.AddCharacter(this);
             }
             else {
@@ -50,7 +49,7 @@ namespace Gameboard
             _isClicked = false;
         }
 
-        private void ToggleOn()
+        public void ToggleOn()
         {
             image.color = GetSelectedColor();
             _isClicked = true;
