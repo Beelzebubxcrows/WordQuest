@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Text;
 using Configurations;
@@ -8,7 +9,7 @@ using Utility.Dictionary;
 
 namespace Gameboard
 {
-    public class GameplayHandler : MonoBehaviour
+    public class GameplayHandler : MonoBehaviour, IDisposable
     {
         [SerializeField] private TMP_Text movesLeftText;
         [SerializeField] private TMP_Text targetText;
@@ -58,9 +59,7 @@ namespace Gameboard
                 clickedLetterTile.ToggleOff();
             }
 
-            _tileRegistry.ClearSelectedTiles();
-            _stringBuilder.Clear();
-            matchedWord.text = "";
+            ResetLetterTile();
             _movesLeft -= 1;
             movesLeftText.text = _movesLeft.ToString();
         }
@@ -108,6 +107,18 @@ namespace Gameboard
             }
             yield return new WaitForSeconds(0.1f);
             matchedWord.text = "";
+        }
+
+        public void ResetLetterTile()
+        {
+            _tileRegistry.ClearSelectedTiles();
+            _stringBuilder.Clear();
+            matchedWord.text = "";
+            
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

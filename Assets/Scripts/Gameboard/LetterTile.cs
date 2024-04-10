@@ -7,8 +7,8 @@ namespace Gameboard
 {
     public class LetterTile : MonoBehaviour
     {
-        [SerializeField] private ParticleSystem clickParticle;
         [SerializeField] private ParticleSystem matchParticle;
+        [SerializeField] private ParticleSystem shuffleParticle;
         [SerializeField] private Color unselectedColor;
         [SerializeField] private Color selectedColor;
         [SerializeField] private Color matchColor;
@@ -17,10 +17,12 @@ namespace Gameboard
         private GameplayHandler _gameplayHandler;
         private bool _isClicked;
         private char _character;
-       
-        
+        private Random _random;
+
+
         public void Initialise(char c, GameplayHandler gameplayHandler)
         {
+            _random = new Random();
             _character = c;
             _gameplayHandler = gameplayHandler;
             displayCharacter.text = _character.ToString();
@@ -62,13 +64,17 @@ namespace Gameboard
         public void OnMatchComplete()
         {
             ToggleOff();
-            var random = new Random();
-            _character = (char)random.Next(65, 91);
+            AllotNewCharacter();
+        }
+
+        public void AllotNewCharacter()
+        {
+            _character = (char)_random.Next(65, 91);
             image.color = GetDefaultColor();
             displayCharacter.text = _character.ToString();
         }
-        
-        
+
+
         private Color GetDefaultColor()
         {
             return unselectedColor;
@@ -84,6 +90,12 @@ namespace Gameboard
         {
             image.color = matchColor;
             matchParticle.Play();
+        }
+
+        public void PlayShuffleAnimation()
+        {
+            image.color = unselectedColor;
+            shuffleParticle.Play();
         }
 
     }

@@ -9,6 +9,7 @@ namespace Utility
         [SerializeField] private AudioSource ambientAudioSource;
         [SerializeField]private AudioSource matchAudioSource;
         [SerializeField]private AudioSource clickAudioSource;
+        [SerializeField]private AudioSource shuffleAudioSource;
 
         private void Awake()
         {
@@ -39,9 +40,16 @@ namespace Utility
             clickAudioSource.Play();
         }
         
+        public void PlayShuffleSound()
+        {
+            shuffleAudioSource.Play();
+        }
+        
         public void Dispose()
         {
             
         }
+
+        
     }
 }
