@@ -32,6 +32,7 @@ namespace Gameboard
         
         public void OnClick()
         {
+            
             Debug.Log($"Clicked on {_character}");
             if (!_isClicked) {
                 ToggleOn();
