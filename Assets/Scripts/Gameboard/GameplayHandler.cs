@@ -47,8 +47,6 @@ namespace Gameboard
             {
                 StartCoroutine(OnMatch());
             }
-            
-           
         }
 
         public void RemoveCharacter()
@@ -64,7 +62,7 @@ namespace Gameboard
             movesLeftText.text = _movesLeft.ToString();
         }
 
-        private IEnumerator OnMatch()
+        public IEnumerator OnMatch()
         {
             _soundPlayer.PlayMatchSound();
             PlayMatchAnimationOnTiles();
