@@ -38,6 +38,8 @@ namespace Powerups
         
         public void Dispose()
         {
+            hintPowerUp.Dispose();
+            shufflePowerUp.Dispose();
         }
     }
 }

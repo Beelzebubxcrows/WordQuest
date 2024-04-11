@@ -40,5 +40,9 @@ namespace Powerups
             InstanceManager.GetInstanceAsSingle<SoundPlayer>().PlayShuffleSound();
             _powerUpManager.SetPowerUpEligible(true);
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

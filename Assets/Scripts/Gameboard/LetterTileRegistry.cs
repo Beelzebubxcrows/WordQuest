@@ -82,6 +82,8 @@ namespace Gameboard
         
         public void Dispose()
         {
+            _tilesOnBoard.Clear();
+            _selectedTiles.Clear();
         }
 
         

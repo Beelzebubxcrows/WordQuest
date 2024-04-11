@@ -141,5 +141,9 @@ namespace Powerups
             
             return ans;
         }
+
+        public void Dispose()
+        {
+        }
     }
 }
