@@ -32,16 +32,24 @@ namespace Utility
                 var rows = (100-level) / 10;
                 var columns = (100-level) / 10;
                 var target = 20 + level * 5;
-                var moves = 1;
-                if (level < 10)
+                var moves=0;
+                if (level < 2)
                 {
                     moves = target;
-                } else if (level < 30)
+                } else if (level < 5)
                 {
                     moves = target / 2;
+                } 
+                else if (level < 15)
+                {
+                    moves = (int)Math.Floor( target / 2.5f);
+                }
+                else if (level < 30)
+                {
+                    moves = (int)Math.Floor( target / 3f);
                 } else if (target < 60)
                 {
-                    moves = target / 3;
+                    moves = (int)Math.Floor( target / 3.5f);
                 }
                 else
                 {
@@ -65,7 +73,7 @@ namespace Utility
             }
             
             var json = JsonConvert.SerializeObject(levels);
-            File.WriteAllText(Path.Combine(Application.persistentDataPath, "ta_levels.json"), json);
+            File.WriteAllText(Path.Combine(Application.persistentDataPath, "LevelConfigSet_1.json"), json);
         }
 
     }
