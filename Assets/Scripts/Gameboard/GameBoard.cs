@@ -65,7 +65,7 @@ namespace Gameboard
 
         public void Dispose()
         {
-            gameplayHandler.Dispose();
+            InstanceManager.UnbindInstanceAsSingle<GameplayHandler>();
         }
     }
 }

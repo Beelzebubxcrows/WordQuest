@@ -1,5 +1,7 @@
 using System;
+using Persistence.PersistenceManager;
 using UnityEngine;
+using Utility;
 
 public enum InventoryType
 {
@@ -10,23 +12,26 @@ namespace DefaultNamespace
 {
     public class InventorySystem : IDisposable
     {
-        private const string InventoryPlayerPrefString = "Inventory_{0}";
+        private readonly ProgressPersistenceManager _progressPersistenceManager;
+        
+        public InventorySystem()
+        {
+            _progressPersistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
+        }
 
         public int GetInventoryCount(InventoryType inventoryType)
         {
-            return PlayerPrefs.GetInt(string.Format(InventoryPlayerPrefString, inventoryType), 0);
+            return _progressPersistenceManager.GetInventoryCount()[inventoryType];
         }
         
         public void IncrementInventoryCount(InventoryType inventoryType, int inventoryDiff)
         {
-            var inventoryCount = GetInventoryCount(inventoryType);
-            PlayerPrefs.SetInt(string.Format(InventoryPlayerPrefString, inventoryType), inventoryCount+inventoryDiff);
+            _progressPersistenceManager.IncrementInventoryCount(inventoryType, inventoryDiff);
         }
         
         public void DecrementInventoryCount(InventoryType inventoryType, int inventoryDiff)
         {
-            var inventoryCount = GetInventoryCount(inventoryType);
-            PlayerPrefs.SetInt(string.Format(InventoryPlayerPrefString, inventoryType), inventoryCount-inventoryDiff);
+            _progressPersistenceManager.DecrementInventoryCount(inventoryType, inventoryDiff);
         }
         
         public void Dispose()
