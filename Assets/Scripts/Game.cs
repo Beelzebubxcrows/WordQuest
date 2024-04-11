@@ -30,6 +30,8 @@ public class Game : MonoBehaviour
         private void BindDependencies()
         {
                 InstanceManager.BindInstanceAsSingle(new AssetManager());
+         
+                InstanceManager.BindInstanceAsSingle(new RandomCharacterSelector());
                 
                 _persistentManager = InstanceManager.BindInstanceAsSingle(new PersistenceManager());
                 InstanceManager.BindInstanceAsSingle(new LevelManager());
