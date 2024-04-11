@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utility;
 using Random = System.Random;
 
 namespace Gameboard
@@ -69,7 +70,8 @@ namespace Gameboard
 
         public void AllotNewCharacter()
         {
-            _character = (char)_random.Next(65, 91);
+            var characterAllocator = InstanceManager.GetInstanceAsSingle<RandomCharacterSelector>();
+            _character = characterAllocator.SelectRandomCharacter(_random);
             image.color = GetDefaultColor();
             displayCharacter.text = _character.ToString();
         }
