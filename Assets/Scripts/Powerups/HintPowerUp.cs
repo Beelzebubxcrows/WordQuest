@@ -11,13 +11,15 @@ namespace Powerups
     public class HintPowerUp : MonoBehaviour
     {
         [SerializeField] private Button hintButton;
-        private bool _isHintOnGoing;
+        
         private LetterTileRegistry _tileRegistry;
         private GameplayHandler _gameplayHandler;
         private DictionaryHelper _dictionaryHelper;
+        private PowerUpManager _powerUpManager;
 
-        public void Initialise()
+        public void Initialise(PowerUpManager powerUpManager)
         {
+            _powerUpManager = powerUpManager;
             _tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
             _gameplayHandler = InstanceManager.GetInstanceAsSingle<GameplayHandler>();
             _dictionaryHelper = InstanceManager.GetInstanceAsSingle<DictionaryHelper>();
@@ -25,12 +27,12 @@ namespace Powerups
 
         public void PlayHint()
         {
-            if (_isHintOnGoing) {
+            if (!_powerUpManager.IsPowerUpEligible()) {
                 return;
             }
 
             hintButton.interactable = false;
-            _isHintOnGoing = true;
+            _powerUpManager.SetPowerUpEligible(false);
             _gameplayHandler.ResetLetterTile();
             var tilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
             foreach (var tile in tilesOnBoard)
@@ -39,7 +41,6 @@ namespace Powerups
             }
 
             StartCoroutine(ExecuteHintOnBoard());
-            
         }
 
         private IEnumerator ExecuteHintOnBoard()
@@ -53,38 +54,46 @@ namespace Powerups
                 yield return new WaitForSeconds(0.35f);
             }
 
-            _isHintOnGoing = false;
+            _powerUpManager.SetPowerUpEligible(true);
             hintButton.interactable = true;
         }
 
         private List<LetterTile> GetTilesToMakeAValidWord(List<LetterTile> allTilesOnBoard)
         {
             
-            var allTiles = new Dictionary<char, List<LetterTile>>();
-            var frequency = new int[26];
-            foreach (var tile in allTilesOnBoard)
-            {
-                frequency[tile.GetCharacter()-'A']++;
-                if (!allTiles.ContainsKey(tile.GetCharacter())) {
-                    allTiles.Add(tile.GetCharacter(),new List<LetterTile>(){tile});
-                }
-                else {
-                    allTiles[tile.GetCharacter()].Add(tile);
-                }
-            }
+            var allTiles = _tileRegistry.GetTilesByCharacter();
+            var frequency = _tileRegistry.GetCharacterFrequency();
 
-            var tilesToMakeWord = new List<LetterTile>();
-            var validWord = string.Empty;
-            var initialLength = 4;
-            while (validWord.Length == 0 && initialLength < 7) {
+            var tries = 3;
+            
+            string validWord;
+            var initialLength = 3;
+            while (true) {
                 validWord = GetValidWords(frequency, "", initialLength);
+                
+                if (validWord.Length > 0) {
+                    break;
+                }
+                
                 initialLength++;
+                if (initialLength >= 7 ) {
+                    if (tries>0) {
+                        _powerUpManager.SetPowerUpEligible(true);
+                        _powerUpManager.PlayShufflePowerUp();
+                        allTiles = _tileRegistry.GetTilesByCharacter();
+                        frequency = _tileRegistry.GetCharacterFrequency();
+                        _powerUpManager.SetPowerUpEligible(false);
+                        initialLength = 3;
+                        tries--;
+                    }
+                    else {
+                        break;
+                    }
+                   
+                }
             }
             
-            if (validWord.Length == 0) { 
-                validWord = GetValidWords(frequency,"", 3);
-            }
-            
+            var tilesToMakeWord = new List<LetterTile>();
             var usedTile = new HashSet<LetterTile>();
             foreach (var  character in validWord)
             {

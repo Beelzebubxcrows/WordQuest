@@ -6,23 +6,24 @@ namespace Powerups
 {
     public class ShufflePowerUp : MonoBehaviour
     {
-        private bool _shuffleOngoing;
         private LetterTileRegistry _tileRegistry;
         private GameplayHandler _gameplayHandler;
+        private PowerUpManager _powerUpManager;
 
-        public void Initialise()
+        public void Initialise(PowerUpManager powerUpManager)
         {
+            _powerUpManager = powerUpManager;
             _tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
             _gameplayHandler = InstanceManager.GetInstanceAsSingle<GameplayHandler>();
         }
         
         public void Shuffle()
         {
-            if (_shuffleOngoing) {
+            if (!_powerUpManager.IsPowerUpEligible()) {
                 return;
             }
             
-            _shuffleOngoing = true;
+            _powerUpManager.SetPowerUpEligible(false);
             _gameplayHandler.ResetLetterTile();
             
             var tilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
@@ -37,7 +38,7 @@ namespace Powerups
                 tile.PlayShuffleAnimation();
             }
             InstanceManager.GetInstanceAsSingle<SoundPlayer>().PlayShuffleSound();
-            _shuffleOngoing = false;
+            _powerUpManager.SetPowerUpEligible(true);
         }
     }
 }
