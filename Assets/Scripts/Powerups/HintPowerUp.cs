@@ -74,8 +74,16 @@ namespace Powerups
             }
 
             var tilesToMakeWord = new List<LetterTile>();
-            var validWord = GetValidWords(frequency,"", 4);
-            Debug.LogError(validWord);
+            var validWord = string.Empty;
+            var initialLength = 4;
+            while (validWord.Length == 0 && initialLength < 7) {
+                validWord = GetValidWords(frequency, "", initialLength);
+                initialLength++;
+            }
+            
+            if (validWord.Length == 0) { 
+                validWord = GetValidWords(frequency,"", 3);
+            }
             
             var usedTile = new HashSet<LetterTile>();
             foreach (var  character in validWord)
@@ -106,6 +114,7 @@ namespace Powerups
                 return string.Empty;
             }
             
+            var ans = string.Empty;
             for (var i = 0; i < 26; i++)
             {
                 if (letters[i] <= 0) {
@@ -114,14 +123,14 @@ namespace Powerups
                 
                 letters[i]--;
                 var temp = GetValidWords(letters, word + (char)(i+'A'), length - 1);
-                if (!string.IsNullOrEmpty(temp)) {
-                    return temp;
+                if (!string.IsNullOrEmpty(temp) && temp.Length>ans.Length) {
+                    ans = temp;
                 }
-                
+
                 letters[i]++;
             }
             
-            return string.Empty;
+            return ans;
         }
     }
 }
