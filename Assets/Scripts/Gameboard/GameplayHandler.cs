@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 using Configurations;
+using Popups;
 using TMPro;
 using UnityEngine;
 using Utility;
@@ -11,6 +12,7 @@ namespace Gameboard
 {
     public class GameplayHandler : MonoBehaviour, IDisposable
     {
+        [SerializeField] private Transform gameplayCanvas;
         [SerializeField] private TMP_Text movesLeftText;
         [SerializeField] private TMP_Text targetText;
         [SerializeField] private TMP_Text matchedWord;
@@ -23,10 +25,12 @@ namespace Gameboard
         private int _target;
         private int _movesLeft;
         private LetterTileRegistry _tileRegistry;
+        private bool _isGameOver;
 
 
         public void Initialise(LevelConfig levelConfig)
         {
+            _isGameOver = false;
             targetText.text = levelConfig.Target.ToString();
             _target = levelConfig.Target;
             movesLeftText.text = levelConfig.Moves.ToString();
@@ -40,7 +44,7 @@ namespace Gameboard
         
         public void AddCharacter(LetterTile clickedTile)
         {
-            if (_matchOngoing) {
+            if (!IsInteractionEligible()) {
                 return;
             }
             
@@ -58,7 +62,7 @@ namespace Gameboard
 
         public void RemoveCharacter()
         {
-            if (_matchOngoing) {
+            if (!IsInteractionEligible()) {
                 return;
             }
             
@@ -70,7 +74,9 @@ namespace Gameboard
 
             ResetLetterTile();
             _movesLeft -= 1;
-            movesLeftText.text = _movesLeft.ToString();
+            movesLeftText.text = Math.Max(0,_movesLeft).ToString();
+
+            TryGameEnd();
         }
 
         private IEnumerator OnMatch()
@@ -85,9 +91,9 @@ namespace Gameboard
 
             
             _target  -= _stringBuilder.Length;
-            targetText.text = _target.ToString();
+            targetText.text = Math.Max(0,_target).ToString();
             _movesLeft -= 1;
-            movesLeftText.text = _movesLeft.ToString();
+            movesLeftText.text = Math.Max(0,_movesLeft).ToString();
 
             var clickedTiles = _tileRegistry.GetSelectedTiles();
             foreach (var clickedLetterTile in clickedTiles)
@@ -97,6 +103,8 @@ namespace Gameboard
             _stringBuilder.Clear();
             _tileRegistry.ClearSelectedTiles();
             _matchOngoing = false;
+            
+            TryGameEnd();
         }
 
         private void PlayMatchAnimationOnTiles()
@@ -110,7 +118,6 @@ namespace Gameboard
 
         private IEnumerator ShowMatchedWord(string wordMatched)
         {
-            
             var wordAnimated = wordMatched;
             var count = 2;
             while (count-- > 0)
@@ -128,7 +135,41 @@ namespace Gameboard
             _tileRegistry.ClearSelectedTiles();
             _stringBuilder.Clear();
             matchedWord.text = "";
-            
+        }
+
+        private void TryGameEnd()
+        {
+            if (_target <= 0 && _movesLeft >= 0)
+            {
+                _isGameOver = true;
+                TriggerWin();
+            }
+
+            if (_target > 0 && _movesLeft <= 0) {
+                _isGameOver = true;
+                TriggerLose();
+            }
+        }
+
+        private async void TriggerLose()
+        {
+            var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
+            var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
+            var levelOutroPopup = gameObject.GetComponent<OutroPopup>();
+            levelOutroPopup.Initialise(false);
+        }
+
+        private async void TriggerWin()
+        {
+            var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
+            var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
+            var levelOutroPopup = gameObject.GetComponent<OutroPopup>();
+            levelOutroPopup.Initialise(true);
+        }
+
+        private bool IsInteractionEligible()
+        {
+            return !_matchOngoing && !_isGameOver;
         }
 
         public void Dispose()
