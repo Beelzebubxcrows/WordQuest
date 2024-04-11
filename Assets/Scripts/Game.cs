@@ -1,5 +1,6 @@
 using System;
 using DefaultNamespace;
+using Level;
 using Persistence.PersistenceManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,7 @@ public class Game : MonoBehaviour
 
         private void BindDependencies()
         {
+                InstanceManager.BindInstanceAsSingle(new LevelManager());
                 _persistentManager = InstanceManager.BindInstanceAsSingle(new PersistenceManager());
                 InstanceManager.BindInstanceAsSingle(new AssetManager());
                 InstanceManager.BindInstanceAsSingle(soundPlayer);
@@ -41,6 +43,10 @@ public class Game : MonoBehaviour
         
         private void OpenGameScene()
         {
+                var persistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
+                var latestLevel = persistenceManager.GetLatestLevel();
+                persistenceManager.SetCurrentLevel(latestLevel);
+                
                 SceneManager.LoadScene("Gameplay");
         }
 

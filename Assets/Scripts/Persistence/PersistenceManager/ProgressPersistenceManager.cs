@@ -49,6 +49,35 @@ namespace Persistence.PersistenceManager
         }
 
         #endregion
+
+        #region LEVELS
+
+        public int GetCurrentLevel()
+        {
+            return _progressData.CurrentLevel;
+        }
+
+        public int GetLatestLevel()
+        {
+            return _progressData.LatestLevel;
+        }
+        
+        public void SetCurrentLevel(int level)
+        {
+            _progressData.CurrentLevel = level;
+            Save();
+        }
+        
+        public void IncrementLatestLevel()
+        {
+            if (GetCurrentLevel() == GetLatestLevel()) {
+                _progressData.LatestLevel++;
+            }
+            Save();
+        }
+
+
+        #endregion
         
         public void Dispose()
         {

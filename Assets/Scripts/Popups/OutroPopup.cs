@@ -1,5 +1,6 @@
 using System.Collections;
 using DefaultNamespace;
+using Persistence.PersistenceManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -69,6 +70,10 @@ namespace Popups
 
         public void OnClickPlay()
         {
+            var persistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
+            var currentLevel = persistenceManager.GetCurrentLevel();
+            persistenceManager.SetCurrentLevel(currentLevel+1);
+
             SceneManager.LoadScene("Gameplay");
         }
 
