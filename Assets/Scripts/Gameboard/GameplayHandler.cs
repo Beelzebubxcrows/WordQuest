@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 using Configurations;
+using Persistence.PersistenceManager;
 using Popups;
 using TMPro;
 using UnityEngine;
@@ -161,6 +162,9 @@ namespace Gameboard
 
         private async void TriggerWin()
         {
+            var persistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
+            persistenceManager.IncrementLatestLevel();
+            
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = gameObject.GetComponent<OutroPopup>();

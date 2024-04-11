@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Configurations;
+using Persistence.PersistenceManager;
+using TMPro;
 using UnityEngine;
 using Utility;
 using Random = System.Random;
@@ -8,11 +10,13 @@ namespace Gameboard
 {
     public class GameBoard : MonoBehaviour
     {
+        [SerializeField] private TMP_Text levelNumber;
         [SerializeField]private List<GameBoardRow> letterTilesRows;
         [SerializeField] private GameplayHandler gameplayHandler;
         
-        private LevelConfig _levelConfig;
+        public string LEVEL_FORMAT = "Level {0}";
         
+        private LevelConfig _levelConfig;
         
         public void Initialise()
         {
@@ -61,6 +65,9 @@ namespace Gameboard
                     letterTilesRows[i].SetupTiles(_levelConfig.Characters[i], gameplayHandler);
                 }
             }
+            
+            levelNumber.text = string.Format(LEVEL_FORMAT,
+                InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>().GetCurrentLevel());
         }
 
         public void Dispose()
