@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,11 +7,13 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
+#endif
 
 namespace Utility
 {
     public abstract class UnityEditorTools
     {
+        #if UNITY_EDITOR
         [MenuItem("InHouseTools/Progression/ResetData")]
         public static void ResetData()
         {
@@ -75,6 +78,6 @@ namespace Utility
             var json = JsonConvert.SerializeObject(levels);
             File.WriteAllText(Path.Combine(Application.persistentDataPath, "LevelConfigSet_1.json"), json);
         }
-
+#endif
     }
 }
