@@ -10,20 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Config
+  m_Name: Gameplay
   m_EditorClassIdentifier: 
-  m_GroupName: Config
+  m_GroupName: Gameplay
   m_Data:
     m_SerializedData: []
-  m_GUID: 04c5ebff2824a4da4a32f773d1178321
+  m_GUID: 69944bc1a8d154f75a4ccacf06d7b8c5
   m_SerializeEntries:
-  - m_GUID: c6fd8f57a3554496a8079e44571f7c2e
-    m_Address: words
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 047bbfa12673d4edbb47d467f13d6316
-    m_Address: LevelConfigSet_1
+  - m_GUID: 0f4a991fd07024991b5e0b9468290271
+    m_Address: pf_outroPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: f16a109388e894daeb2e42e13d5d0d0b, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 26ca270a0b2444ac48213aa64d199964, type: 2}
-    - {fileID: 11400000, guid: 153f9f10b25ac48489319dc5b3022805, type: 2}
+    - {fileID: 11400000, guid: d24fbdd23b05448bb8d1f867cbda8e32, type: 2}
+    - {fileID: 11400000, guid: 4d3b12e41d6de4ce5a7a7982bbaaa7da, type: 2}

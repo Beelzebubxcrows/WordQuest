@@ -29,9 +29,11 @@ public class Game : MonoBehaviour
 
         private void BindDependencies()
         {
-                InstanceManager.BindInstanceAsSingle(new LevelManager());
-                _persistentManager = InstanceManager.BindInstanceAsSingle(new PersistenceManager());
                 InstanceManager.BindInstanceAsSingle(new AssetManager());
+                
+                _persistentManager = InstanceManager.BindInstanceAsSingle(new PersistenceManager());
+                InstanceManager.BindInstanceAsSingle(new LevelManager());
+                
                 InstanceManager.BindInstanceAsSingle(soundPlayer);
                 _dictionaryHelper = new DictionaryHelper();
                 InstanceManager.BindInstanceAsSingle(_dictionaryHelper);
