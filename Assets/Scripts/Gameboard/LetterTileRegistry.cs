@@ -50,6 +50,34 @@ namespace Gameboard
         }
 
         #endregion
+
+
+        public int[] GetCharacterFrequency()
+        {
+            var frequency = new int[26];
+            foreach (var tile in _tilesOnBoard)
+            {
+                frequency[tile.GetCharacter()-'A']++;
+            }
+
+            return frequency;
+        }
+
+        public Dictionary<char, List<LetterTile>> GetTilesByCharacter()
+        {
+            var allTiles = new Dictionary<char, List<LetterTile>>();
+            foreach (var tile in _tilesOnBoard)
+            {
+                if (!allTiles.ContainsKey(tile.GetCharacter())) {
+                    allTiles.Add(tile.GetCharacter(),new List<LetterTile>(){tile});
+                }
+                else {
+                    allTiles[tile.GetCharacter()].Add(tile);
+                }
+            }
+
+            return allTiles;
+        }
         
         
         public void Dispose()

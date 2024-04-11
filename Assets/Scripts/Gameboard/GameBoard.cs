@@ -25,7 +25,7 @@ namespace Gameboard
         private void LoadConfig()
         {
             var random = new Random();
-            _levelConfig = new LevelConfig(1,random.Next(5, 9),random.Next(4, 6), random.Next(90,120),random.Next(30, 40));
+            _levelConfig = new LevelConfig(1,random.Next(5, 6),random.Next(4, 5), random.Next(90,100),random.Next(40, 50));
             for (var i = 0; i < _levelConfig.Rows; i++)
             {
                 var characters = new List<char>();
