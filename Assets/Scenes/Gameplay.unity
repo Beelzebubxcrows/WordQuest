@@ -9145,6 +9145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd51e48f0034a1c9d12a433a7d82b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameplayCanvas: {fileID: 1457701764}
   movesLeftText: {fileID: 818532811}
   targetText: {fileID: 1920277158}
   matchedWord: {fileID: 2103341408}
