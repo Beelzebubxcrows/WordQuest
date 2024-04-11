@@ -1,4 +1,5 @@
 using System;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utility;
@@ -24,6 +25,7 @@ public class Game : MonoBehaviour
 
         private void BindDependencies()
         {
+                InstanceManager.BindInstanceAsSingle(new InventorySystem());
                 InstanceManager.BindInstanceAsSingle(new AssetManager());
                 InstanceManager.BindInstanceAsSingle(soundPlayer);
                 _dictionaryHelper = new DictionaryHelper();

@@ -62,5 +62,10 @@ namespace Gameboard
                 }
             }
         }
+
+        public void Dispose()
+        {
+            gameplayHandler.Dispose();
+        }
     }
 }

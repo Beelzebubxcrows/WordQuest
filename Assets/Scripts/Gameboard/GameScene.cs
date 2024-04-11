@@ -1,6 +1,5 @@
 using Powerups;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utility;
 
 namespace Gameboard
@@ -34,6 +33,19 @@ namespace Gameboard
         public void OpenInfoPanel()
         {
             
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+
+        private void Dispose()
+        {
+            InstanceManager.UnbindInstanceAsSingle<LetterTileRegistry>();
+            powerUpManager.Dispose();
+            selectionHandler.Dispose();
+            gameBoard.Dispose();
         }
     }
 }

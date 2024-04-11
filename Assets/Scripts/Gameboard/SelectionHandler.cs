@@ -47,5 +47,10 @@ namespace Gameboard
         {
             Debug.Log(eventData.position+" "+Camera.main.WorldToScreenPoint(transform.position));
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }
