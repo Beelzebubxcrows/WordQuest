@@ -10,20 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Config
+  m_Name: General
   m_EditorClassIdentifier: 
-  m_GroupName: Config
+  m_GroupName: General
   m_Data:
     m_SerializedData: []
-  m_GUID: 04c5ebff2824a4da4a32f773d1178321
+  m_GUID: cf6348c0d13c44bf9ae03db9605509c2
   m_SerializeEntries:
-  - m_GUID: c6fd8f57a3554496a8079e44571f7c2e
-    m_Address: words
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 047bbfa12673d4edbb47d467f13d6316
-    m_Address: LevelConfigSet_1
+  - m_GUID: 3a496df1c82c0410fb0ebf9f80f5c502
+    m_Address: pf_transition
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: f16a109388e894daeb2e42e13d5d0d0b, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 26ca270a0b2444ac48213aa64d199964, type: 2}
-    - {fileID: 11400000, guid: 153f9f10b25ac48489319dc5b3022805, type: 2}
+    - {fileID: 11400000, guid: 58d41134ffa8140fa9990f9b472b7d1c, type: 2}
+    - {fileID: 11400000, guid: 4e1a61e942c2e486d85eabdc51dbc354, type: 2}

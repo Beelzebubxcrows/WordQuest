@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Configurations;
+using Level;
 using Persistence.PersistenceManager;
 using TMPro;
 using UnityEngine;
@@ -17,30 +19,30 @@ namespace Gameboard
         public string LEVEL_FORMAT = "Level {0}";
         
         private LevelConfig _levelConfig;
-        
-        public void Initialise()
+        private LevelManager _levelManager;
+        private ProgressPersistenceManager _progressPersistenceManager;
+
+        public async Task Initialise()
         {
-            LoadConfig();
+            _progressPersistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
+            _levelManager = InstanceManager.GetInstanceAsSingle<LevelManager>();
+            
+            await LoadConfig();
             InitialiseComponents();
             LoadUI();
             
         }
         
-        private void LoadConfig()
+        private async Task LoadConfig()
         {
-            var random = new Random();
-            _levelConfig = new LevelConfig(1,random.Next(5, 6),random.Next(4, 5), random.Next(10,20),random.Next(40, 50));
-            for (var i = 0; i < _levelConfig.Rows; i++)
-            {
-                var characters = new List<char>();
-                for (var j = 0; j < _levelConfig.Columns; j++)
-                {
-                    characters.Add((char)(random.Next(0,25)+'A'));
-                }
-                _levelConfig.Characters.Add(characters);
-            }
+            _levelConfig = await _levelManager.LoadLevel(GetLevelToLoad());
         }
-        
+
+        private int GetLevelToLoad()
+        {
+            return _progressPersistenceManager.GetCurrentLevel();
+        }
+
         private void InitialiseComponents()
         {
             InstanceManager.BindInstanceAsSingle(gameplayHandler);
@@ -65,9 +67,10 @@ namespace Gameboard
                     letterTilesRows[i].SetupTiles(_levelConfig.Characters[i], gameplayHandler);
                 }
             }
+
             
             levelNumber.text = string.Format(LEVEL_FORMAT,
-                InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>().GetCurrentLevel());
+                _progressPersistenceManager.GetCurrentLevel());
         }
 
         public void Dispose()

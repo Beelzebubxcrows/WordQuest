@@ -12,17 +12,18 @@ namespace Gameboard
 
         private void Awake()
         {
+            Initialise();
+        }
+
+        private async void Initialise()
+        {
             InstanceManager.BindInstanceAsSingle(new LetterTileRegistry());
             selectionHandler.Initialise();
             InstanceManager.GetInstanceAsSingle<SoundPlayer>().PlayAmbientMusic();
-            Initialise();
+            
+            await gameBoard.Initialise();
+            
             powerUpManager.Initialise();
-            selectionHandler.PrintPosition();
-        }
-
-        private void Initialise()
-        {
-            gameBoard.Initialise();
         }
 
         public void OpenSettings()
