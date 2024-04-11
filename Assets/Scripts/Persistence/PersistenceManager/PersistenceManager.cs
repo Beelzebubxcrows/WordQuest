@@ -42,7 +42,6 @@ namespace Persistence.PersistenceManager
         public void SaveContent()
         {
             var stringData = JsonConvert.SerializeObject(_persistenceData);
-            Debug.LogError(stringData);
             File.WriteAllText(GetPath(), stringData);
         }
 
