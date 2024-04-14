@@ -36,7 +36,6 @@ namespace Gameboard
 
         private void CheckForTutorial()
         {
-            
             if (_progressPersistenceManager.GetCurrentLevel() == TUTORIAL_LEVEL) {
                 InstanceManager.GetInstanceAsSingle<TutorialManager>().StartTutorial();
             }
