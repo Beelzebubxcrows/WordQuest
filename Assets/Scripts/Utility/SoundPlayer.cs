@@ -5,45 +5,66 @@ namespace Utility
 {
     public class SoundPlayer : MonoBehaviour, IDisposable
     {
-        [SerializeField] private AudioSource typingAudioSource;
-        [SerializeField] private AudioSource ambientAudioSource;
-        [SerializeField]private AudioSource matchAudioSource;
-        [SerializeField]private AudioSource clickAudioSource;
-        [SerializeField]private AudioSource shuffleAudioSource;
+        [SerializeField] private AudioSource musicAudioSource;
+        [SerializeField] private AudioSource gameEffectsAudioSource;
+        
+        [SerializeField] private AudioClip typingAudioClip;
+        [SerializeField] private AudioClip ambientAudioClip;
+        [SerializeField]private AudioClip matchAudioClip;
+        [SerializeField]private AudioClip clickAudioClip;
+        [SerializeField]private AudioClip shuffleAudioClip;
 
         private void Awake()
         {
             DontDestroyOnLoad(this);
         }
 
+        #region GAME EFFECTS
+
         public void PlayTypingSound()
         {
-            if (!typingAudioSource.isPlaying)
+            if (!musicAudioSource.isPlaying)
             {
-                typingAudioSource.Play();
+                PlayGameEffectsAudioSource(typingAudioClip);
             }
-            
         }
 
-        public void PlayAmbientMusic()
-        {
-           ambientAudioSource.Play();
-        }
-
+      
         public void PlayMatchSound()
         {
-            matchAudioSource.Play();
+            PlayGameEffectsAudioSource(matchAudioClip);
         }
 
         public void PlayClickSound()
         {
-            clickAudioSource.Play();
+            PlayGameEffectsAudioSource(clickAudioClip);
         }
         
         public void PlayShuffleSound()
         {
-            shuffleAudioSource.Play();
+            PlayGameEffectsAudioSource(shuffleAudioClip);
         }
+
+        private void PlayGameEffectsAudioSource(AudioClip audioClip)
+        {
+            gameEffectsAudioSource.clip = audioClip;
+            gameEffectsAudioSource.Play();
+        }
+        
+
+        #endregion
+
+        #region AMBIENT MUSIC
+
+        public void PlayAmbientMusic()
+        {
+            musicAudioSource.clip = ambientAudioClip;
+            musicAudioSource.Play();
+        }
+
+
+        #endregion
+        
         
         public void Dispose()
         {
