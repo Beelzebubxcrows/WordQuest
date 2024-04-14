@@ -27,6 +27,7 @@ namespace Gameboard
 
         public void Initialise(char c, GameplayHandler gameplayHandler)
         {
+            isClickable = true;
             _eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
             _random = new Random();
             _character = c;
