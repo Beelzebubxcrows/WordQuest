@@ -1,3 +1,4 @@
+using Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ namespace Gameboard
 {
     public class LetterTile : MonoBehaviour
     {
+        [SerializeField] private GameObject upperEffect;
         [SerializeField] private ParticleSystem matchParticle;
         [SerializeField] private ParticleSystem shuffleParticle;
         [SerializeField] private Color unselectedColor;
@@ -19,10 +21,13 @@ namespace Gameboard
         private bool _isClicked;
         private char _character;
         private Random _random;
+        private EventBus _eventBus;
+        public bool isClickable;
 
 
         public void Initialise(char c, GameplayHandler gameplayHandler)
         {
+            _eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
             _random = new Random();
             _character = c;
             _gameplayHandler = gameplayHandler;
@@ -33,7 +38,9 @@ namespace Gameboard
         
         public void OnClick()
         {
-            
+            if (!isClickable) {
+                return;
+            }
             Debug.Log($"Clicked on {_character}");
             if (!_isClicked) {
                 _gameplayHandler.AddCharacter(this);
@@ -42,6 +49,8 @@ namespace Gameboard
                 _gameplayHandler.RemoveCharacter();
             }
             
+            
+            _eventBus.Fire(new TileClicked(this));
         }
 
         public void ToggleOff()
@@ -98,6 +107,11 @@ namespace Gameboard
         {
             image.color = unselectedColor;
             shuffleParticle.Play();
+        }
+
+        public void ToggleTutorialMark(bool isActive)
+        {
+            upperEffect.gameObject.SetActive(isActive);
         }
 
     }

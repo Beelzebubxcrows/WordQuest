@@ -4,9 +4,9 @@ using Configurations;
 using Level;
 using Persistence.PersistenceManager;
 using TMPro;
+using Tutorial;
 using UnityEngine;
 using Utility;
-using Random = System.Random;
 
 namespace Gameboard
 {
@@ -17,6 +17,7 @@ namespace Gameboard
         [SerializeField] private GameplayHandler gameplayHandler;
         
         public string LEVEL_FORMAT = "Level {0}";
+        private const int TUTORIAL_LEVEL = 1;
         
         private LevelConfig _levelConfig;
         private LevelManager _levelManager;
@@ -30,9 +31,17 @@ namespace Gameboard
             await LoadConfig();
             InitialiseComponents();
             LoadUI();
-            
+            CheckForTutorial();
         }
-        
+
+        private void CheckForTutorial()
+        {
+            
+            if (_progressPersistenceManager.GetCurrentLevel() == TUTORIAL_LEVEL) {
+                InstanceManager.GetInstanceAsSingle<TutorialManager>().StartTutorial();
+            }
+        }
+
         private async Task LoadConfig()
         {
             _levelConfig = await _levelManager.LoadLevel(GetLevelToLoad());
@@ -45,7 +54,9 @@ namespace Gameboard
 
         private void InitialiseComponents()
         {
+            InstanceManager.BindInstanceAsSingle(new ValidWordFinder());
             InstanceManager.BindInstanceAsSingle(gameplayHandler);
+            InstanceManager.BindInstanceAsSingle(new TutorialManager());
             gameplayHandler.Initialise(_levelConfig);
             foreach (var letterTilesRow in letterTilesRows)
             {
@@ -75,6 +86,8 @@ namespace Gameboard
 
         public void Dispose()
         {
+            InstanceManager.UnbindInstanceAsSingle<ValidWordFinder>();
+            InstanceManager.UnbindInstanceAsSingle<TutorialManager>();
             InstanceManager.UnbindInstanceAsSingle<GameplayHandler>();
         }
     }
