@@ -29,6 +29,7 @@ public class Game : MonoBehaviour
 
         private void BindDependencies()
         {
+                InstanceManager.BindInstanceAsSingle(new EventBus());
                 InstanceManager.BindInstanceAsSingle(new AssetManager());
          
                 InstanceManager.BindInstanceAsSingle(new RandomCharacterSelector());
