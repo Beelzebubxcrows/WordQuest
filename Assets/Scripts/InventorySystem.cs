@@ -1,6 +1,5 @@
 using System;
 using Persistence.PersistenceManager;
-using UnityEngine;
 using Utility;
 
 public enum InventoryType
