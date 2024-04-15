@@ -3461,7 +3461,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 803136351}
   - {fileID: 1920277157}
@@ -9282,6 +9282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd51e48f0034a1c9d12a433a7d82b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playTargetPunchScale: {fileID: 1920277160}
   gameplayCanvas: {fileID: 1457701764}
   movesLeftText: {fileID: 818532811}
   targetText: {fileID: 1920277158}
@@ -11616,6 +11617,7 @@ GameObject:
   - component: {fileID: 1920277157}
   - component: {fileID: 1920277159}
   - component: {fileID: 1920277158}
+  - component: {fileID: 1920277160}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -11739,6 +11741,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920277156}
   m_CullTransparentMesh: 1
+--- !u!114 &1920277160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920277156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2575627f7865484baef0f424dfa11c3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchScaleAmount: {x: 1.03, y: 1.03, z: 1.03}
+  punchDuration: 0.2
 --- !u!1 &1949732394
 GameObject:
   m_ObjectHideFlags: 0

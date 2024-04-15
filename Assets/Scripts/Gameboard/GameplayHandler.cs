@@ -1,18 +1,21 @@
 using System;
 using System.Collections;
 using System.Text;
+using System.Threading.Tasks;
 using Configurations;
 using Persistence.PersistenceManager;
 using Popups;
 using TMPro;
 using UnityEngine;
 using Utility;
+using Utility.Animation;
 using Utility.Dictionary;
 
 namespace Gameboard
 {
     public class GameplayHandler : MonoBehaviour, IDisposable
     {
+        [SerializeField] private PunchScale playTargetPunchScale;
         [SerializeField] private Transform gameplayCanvas;
         [SerializeField] private TMP_Text movesLeftText;
         [SerializeField] private TMP_Text targetText;
@@ -27,6 +30,7 @@ namespace Gameboard
         private int _movesLeft;
         private LetterTileRegistry _tileRegistry;
         private bool _isGameOver;
+        private AssetManager _assetManager;
 
 
         public void Initialise(LevelConfig levelConfig)
@@ -37,18 +41,20 @@ namespace Gameboard
             movesLeftText.text = levelConfig.Moves.ToString();
             _movesLeft = levelConfig.Moves;
 
+            _assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             _tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
             _soundPlayer = InstanceManager.GetInstanceAsSingle<SoundPlayer>();
             _dictionaryHelper = InstanceManager.GetInstanceAsSingle<DictionaryHelper>();
             _stringBuilder = new StringBuilder();
         }
-        
+
         public void AddCharacter(LetterTile clickedTile)
         {
-            if (!IsInteractionEligible()) {
+            if (!IsInteractionEligible())
+            {
                 return;
             }
-            
+
             clickedTile.ToggleOn();
             _tileRegistry.RegisterSelectedTile(clickedTile);
             _stringBuilder.Append(clickedTile.GetCharacter());
@@ -63,10 +69,11 @@ namespace Gameboard
 
         public void RemoveCharacter()
         {
-            if (!IsInteractionEligible()) {
+            if (!IsInteractionEligible())
+            {
                 return;
             }
-            
+
             var clickedTiles = _tileRegistry.GetSelectedTiles();
             foreach (var clickedLetterTile in clickedTiles)
             {
@@ -75,7 +82,7 @@ namespace Gameboard
 
             ResetLetterTile();
             _movesLeft -= 1;
-            movesLeftText.text = Math.Max(0,_movesLeft).ToString();
+            movesLeftText.text = Math.Max(0, _movesLeft).ToString();
 
             TryGameEnd();
         }
@@ -87,26 +94,50 @@ namespace Gameboard
             _soundPlayer.PlayMatchSound();
             PlayMatchAnimationOnTiles();
             StartCoroutine(ShowMatchedWord(_stringBuilder.ToString()));
-            
+
+            FlyScore();
+
             yield return new WaitForSeconds(matchDelay);
 
-            
-            _target  -= _stringBuilder.Length;
-            targetText.text = Math.Max(0,_target).ToString();
+
+            _target -= _stringBuilder.Length;
             _movesLeft -= 1;
-            movesLeftText.text = Math.Max(0,_movesLeft).ToString();
 
             var clickedTiles = _tileRegistry.GetSelectedTiles();
             foreach (var clickedLetterTile in clickedTiles)
             {
                 clickedLetterTile.OnMatchComplete();
             }
+
             _stringBuilder.Clear();
             _tileRegistry.ClearSelectedTiles();
             _matchOngoing = false;
-            
+
             TryGameEnd();
         }
+
+
+        private Score _spawnedScore;
+
+        private async void FlyScore()
+        {
+            var transformTile = _tileRegistry.GetSelectedTiles()[^1].transform;
+            var score = _stringBuilder.Length;
+
+
+            var scoreGameObject = await _assetManager.InstantiateAsync("pf_score", transformTile);
+            _spawnedScore = scoreGameObject.GetComponent<Score>();
+            _spawnedScore.Initialise(score, targetText.transform, OnReached);
+        }
+
+        private void OnReached()
+        {
+            _assetManager.ReleaseAsset(_spawnedScore.gameObject);
+            StartCoroutine(playTargetPunchScale.PlayPunchScale());
+            targetText.text = Math.Max(0, _target).ToString();
+            movesLeftText.text = Math.Max(0, _movesLeft).ToString();
+        }
+
 
         private void PlayMatchAnimationOnTiles()
         {
@@ -127,6 +158,7 @@ namespace Gameboard
                 matchedWord.text = wordAnimated;
                 yield return new WaitForSeconds(0.05f);
             }
+
             yield return new WaitForSeconds(0.1f);
             matchedWord.text = "";
         }
@@ -146,7 +178,8 @@ namespace Gameboard
                 TriggerWin();
             }
 
-            if (_target > 0 && _movesLeft <= 0) {
+            if (_target > 0 && _movesLeft <= 0)
+            {
                 _isGameOver = true;
                 TriggerLose();
             }
@@ -164,7 +197,7 @@ namespace Gameboard
         {
             var persistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
             persistenceManager.IncrementLatestLevel();
-            
+
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = gameObject.GetComponent<OutroPopup>();
