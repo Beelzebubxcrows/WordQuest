@@ -7,7 +7,7 @@ namespace Utility
 {
     public class AssetManager : IDisposable
     {
-        public async Task<GameObject> InstantiateAsync(string assetId, Transform transform)
+        public async Task<GameObject> InstantiateAsync(string assetId, Transform transform, bool worldSpace = false)
         {
             var asyncOperationHandle = Addressables.InstantiateAsync(assetId,transform);
             if (asyncOperationHandle.Task != null) {
@@ -32,6 +32,11 @@ namespace Utility
             }
             
             return asyncOperationHandle.Result == null ? default : asyncOperationHandle.Result;
+        }
+
+        public void ReleaseAsset(GameObject gameObject)
+        {
+            Addressables.Release(gameObject);
         }
         
         public void Dispose()
