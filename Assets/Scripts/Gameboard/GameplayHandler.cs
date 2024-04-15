@@ -35,6 +35,7 @@ namespace Gameboard
 
         public void Initialise(LevelConfig levelConfig)
         {
+            _levelConfig = levelConfig;
             _isGameOver = false;
             targetText.text = levelConfig.Target.ToString();
             _target = levelConfig.Target;
@@ -118,6 +119,7 @@ namespace Gameboard
 
 
         private Score _spawnedScore;
+        private LevelConfig _levelConfig;
 
         private async void FlyScore()
         {
@@ -190,7 +192,7 @@ namespace Gameboard
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = gameObject.GetComponent<OutroPopup>();
-            levelOutroPopup.Initialise(false);
+            levelOutroPopup.Initialise(false,_levelConfig);
         }
 
         private async void TriggerWin()
@@ -201,7 +203,7 @@ namespace Gameboard
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = gameObject.GetComponent<OutroPopup>();
-            levelOutroPopup.Initialise(true);
+            levelOutroPopup.Initialise(true,_levelConfig);
         }
 
         private bool IsInteractionEligible()

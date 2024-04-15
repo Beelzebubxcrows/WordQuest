@@ -1,11 +1,13 @@
 using System.Collections;
+using Configurations;
 using DefaultNamespace;
 using Persistence.PersistenceManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utility;
-using Random = Unity.Mathematics.Random;
+using Random = System.Random;
+
 
 namespace Popups
 {
@@ -16,9 +18,11 @@ namespace Popups
         [SerializeField] private GameObject retryButton;
         [SerializeField] private GameObject playButton;
         private bool _isLevelWon;
+        private LevelConfig _levelConfig;
 
-        public void Initialise(bool isLevelWon)
+        public void Initialise(bool isLevelWon, LevelConfig levelConfig)
         {
+            _levelConfig = levelConfig;
             _isLevelWon = isLevelWon;
             SetupUI(isLevelWon);
             StartCoroutine(ShowMasteryPoint());
@@ -32,8 +36,8 @@ namespace Popups
             var soundPlayer = InstanceManager.GetInstanceAsSingle<SoundPlayer>();
             var inventoryManager = InstanceManager.GetInstanceAsSingle<InventorySystem>();
             var masteryPoint = inventoryManager.GetInventoryCount(InventoryType.MasteryPoint);
-            
-            var pointsGiven = 275;
+            var random = new Random();
+            var pointsGiven = _levelConfig.Target * random.Next(_levelConfig.Level , _levelConfig.Level +3);
             
             inventoryManager.IncrementInventoryCount(InventoryType.MasteryPoint,pointsGiven);
             
