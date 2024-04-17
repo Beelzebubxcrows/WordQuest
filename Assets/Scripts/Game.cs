@@ -1,7 +1,9 @@
 using System;
+using System.Threading.Tasks;
 using DefaultNamespace;
 using Level;
 using Persistence.PersistenceManager;
+using Splash;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utility;
@@ -9,24 +11,45 @@ using Utility.Dictionary;
 
 public class Game : MonoBehaviour
 {
+        [SerializeField] private SplashScene splashScene;
         [SerializeField] private SoundPlayer soundPlayer;
         private DictionaryHelper _dictionaryHelper;
         private PersistenceManager _persistentManager;
 
+        private int _mutexCounter;
+        private const int TASK_COUNT = 2;
+
         private void Start()
         { 
+                _mutexCounter = 0;
                 DontDestroyOnLoad(this);
                 BindDependencies();
-                ReadFiles(OpenGameScene);
+                
+                splashScene.PlayAnimation(OnAnimationComplete);
+                ReadFiles();
         }
 
-        private async void ReadFiles(Action onReadComplete)
+        private void OnAnimationComplete()
+        { 
+                OnMutexTaskComplete();
+        }
+
+        private async void ReadFiles()
         {
                 await _dictionaryHelper.ReadFile();
                 await _persistentManager.LoadPersistence();
-                onReadComplete?.Invoke();
+                OnMutexTaskComplete();
         }
 
+        private void OnMutexTaskComplete()
+        {
+                _mutexCounter++;
+                if (_mutexCounter >= TASK_COUNT)
+                {
+                        OpenGameScene();
+                }
+        }
+        
         private void BindDependencies()
         {
                 InstanceManager.BindInstanceAsSingle(new EventBus());
