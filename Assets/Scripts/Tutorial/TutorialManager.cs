@@ -13,9 +13,11 @@ namespace Tutorial
         private List<LetterTile> _tilesToMakeAWord;
         private readonly EventBus _eventBus;
         private readonly LetterTileRegistry _tileRegistry;
+        private readonly GameplayHandler _gameplayHandler;
 
-        public TutorialManager()
+        public TutorialManager(GameplayHandler gameplayHandler)
         {
+            _gameplayHandler = gameplayHandler;
             _tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
             _eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
         }
@@ -27,12 +29,19 @@ namespace Tutorial
 
             _markedTiles = new List<LetterTile>();
             _eventBus.Register<TileClicked>(OnTileClick);
+            _eventBus.Register<TickClicked>(OnTickClick);
             var validWordFinder = InstanceManager.GetInstanceAsSingle<ValidWordFinder>();
             
-            _tilesToMakeAWord = validWordFinder.GetTilesToMakeAValidWord();
+            _tilesToMakeAWord = validWordFinder.GetTilesToMakeAValidWord(3);
             _index = 0;
             
             StartSteps(_index);
+        }
+
+        private void OnTickClick(TickClicked obj)
+        {
+            _gameplayHandler.ToggleFTUEMarkOnTick(false);
+            MarkTutorialComplete();
         }
 
         private void ToggleAllTilesOnBoard(bool isClickable)
@@ -46,7 +55,7 @@ namespace Tutorial
         private void StartSteps(int tileIndex)
         {
             if (_tilesToMakeAWord.Count == tileIndex) {
-                MarkTutorialComplete();
+                _gameplayHandler.ToggleFTUEMarkOnTick(true);
                 return;
             }
             
@@ -59,6 +68,7 @@ namespace Tutorial
         {
             ToggleAllTilesOnBoard(true);
             _eventBus.Unregister<TileClicked>(OnTileClick);
+            _eventBus.Unregister<TickClicked>(OnTickClick);
             _tilesToMakeAWord.Clear();
             _index = 0;
         }

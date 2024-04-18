@@ -55,7 +55,7 @@ namespace Gameboard
         {
             InstanceManager.BindInstanceAsSingle(new ValidWordFinder());
             InstanceManager.BindInstanceAsSingle(gameplayHandler);
-            InstanceManager.BindInstanceAsSingle(new TutorialManager());
+            InstanceManager.BindInstanceAsSingle(new TutorialManager(gameplayHandler));
             gameplayHandler.Initialise(_levelConfig);
             foreach (var letterTilesRow in letterTilesRows)
             {

@@ -46,7 +46,7 @@ namespace Powerups
         private IEnumerator ExecuteHintOnBoard()
         {
             var validWordFinder = InstanceManager.GetInstanceAsSingle<ValidWordFinder>();
-            var letterTiles = validWordFinder.GetTilesToMakeAValidWord();
+            var letterTiles = validWordFinder.GetTilesToMakeAValidWord(3);
 
             foreach (var tile in letterTiles)
             {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Text;
-using System.Threading.Tasks;
 using Configurations;
+using Events;
 using Persistence.PersistenceManager;
 using Popups;
 using TMPro;
@@ -15,7 +15,15 @@ namespace Gameboard
 {
     public class GameplayHandler : MonoBehaviour, IDisposable
     {
+        [SerializeField] private GameObject FTUEMarkOnTick;
+        [SerializeField] private Color wrongColor;
+        [SerializeField] private Color rightColor;
+        
+        [SerializeField] private Transform wrongMark;
+        [SerializeField] private Transform tickMark;
+        
         [SerializeField] private PunchScale playTargetPunchScale;
+        [SerializeField] private PunchScale movesPunchScale;
         [SerializeField] private Transform gameplayCanvas;
         [SerializeField] private TMP_Text movesLeftText;
         [SerializeField] private TMP_Text targetText;
@@ -48,7 +56,46 @@ namespace Gameboard
             _dictionaryHelper = InstanceManager.GetInstanceAsSingle<DictionaryHelper>();
             _stringBuilder = new StringBuilder();
         }
+        
 
+        public void OnClickCheck()
+        {
+            if (_stringBuilder.Length == 0) {
+                return;
+            }
+
+            var eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
+            eventBus.Fire(new TickClicked());
+            
+            if (_dictionaryHelper.IsWordValid(_stringBuilder.ToString()))
+            {
+                _matchOngoing = true;
+                StartCoroutine(OnMatch());
+            }else {
+                OnClickClear();
+            }
+        }
+
+        public void OnClickClear()
+        {
+            if (_stringBuilder.Length == 0) {
+                return;
+            }
+
+            var clickedTiles = _tileRegistry.GetSelectedTiles();
+            foreach (var clickedLetterTile in clickedTiles)
+            {
+                clickedLetterTile.ToggleOff();
+            }
+
+            ResetLetterTile();
+            _movesLeft -= 1;
+            FlyScore(wrongMark,movesLeftText.transform,-1,movesPunchScale,wrongColor);
+
+            TryGameEnd();
+        }
+        
+        
         public void AddCharacter(LetterTile clickedTile)
         {
             if (!IsInteractionEligible())
@@ -61,31 +108,6 @@ namespace Gameboard
             _stringBuilder.Append(clickedTile.GetCharacter());
             matchedWord.text = _stringBuilder.ToString();
             _soundPlayer.PlayClickSound();
-            if (_dictionaryHelper.IsWordValid(_stringBuilder.ToString()))
-            {
-                _matchOngoing = true;
-                StartCoroutine(OnMatch());
-            }
-        }
-
-        public void RemoveCharacter()
-        {
-            if (!IsInteractionEligible())
-            {
-                return;
-            }
-
-            var clickedTiles = _tileRegistry.GetSelectedTiles();
-            foreach (var clickedLetterTile in clickedTiles)
-            {
-                clickedLetterTile.ToggleOff();
-            }
-
-            ResetLetterTile();
-            _movesLeft -= 1;
-            movesLeftText.text = Math.Max(0, _movesLeft).ToString();
-
-            TryGameEnd();
         }
 
         private IEnumerator OnMatch()
@@ -96,7 +118,7 @@ namespace Gameboard
             PlayMatchAnimationOnTiles();
             StartCoroutine(ShowMatchedWord(_stringBuilder.ToString()));
 
-            FlyScore();
+            FlyScore(tickMark,targetText.transform,_stringBuilder.Length,playTargetPunchScale,rightColor);
 
             yield return new WaitForSeconds(matchDelay);
 
@@ -120,22 +142,21 @@ namespace Gameboard
 
         private Score _spawnedScore;
         private LevelConfig _levelConfig;
+        private PunchScale _punchScale;
 
-        private async void FlyScore()
+        private async void FlyScore(Transform parent, Transform target, int score, PunchScale punchScale, Color color)
         {
-            var transformTile = _tileRegistry.GetSelectedTiles()[^1].transform;
-            var score = _stringBuilder.Length;
-
-
-            var scoreGameObject = await _assetManager.InstantiateAsync("pf_score", transformTile);
+            _punchScale = punchScale;
+            var scoreGameObject = await _assetManager.InstantiateAsync("pf_score",parent);
             _spawnedScore = scoreGameObject.GetComponent<Score>();
-            _spawnedScore.Initialise(score, targetText.transform, OnReached);
+            _spawnedScore.Initialise(score, target, OnReached);
+            _spawnedScore.SetColor(color);
         }
 
         private void OnReached()
         {
             _assetManager.ReleaseAsset(_spawnedScore.gameObject);
-            StartCoroutine(playTargetPunchScale.PlayPunchScale());
+            StartCoroutine(_punchScale.PlayPunchScale());
             targetText.text = Math.Max(0, _target).ToString();
             movesLeftText.text = Math.Max(0, _movesLeft).ToString();
         }
@@ -209,6 +230,11 @@ namespace Gameboard
         private bool IsInteractionEligible()
         {
             return !_matchOngoing && !_isGameOver;
+        }
+
+        public void ToggleFTUEMarkOnTick(bool toggle)
+        {
+            FTUEMarkOnTick.gameObject.SetActive(toggle);
         }
 
         public void Dispose()
