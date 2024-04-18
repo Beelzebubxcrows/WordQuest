@@ -29,7 +29,7 @@ namespace Splash
         {
             var index = 1;
             
-            while (index<5)
+            while (index<3)
             {
                 yield return gameObjectAnimations.PlayFadeOut(0.5f);
                 
