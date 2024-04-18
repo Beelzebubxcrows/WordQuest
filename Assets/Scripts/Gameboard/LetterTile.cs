@@ -1,15 +1,17 @@
 using Events;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utility;
 using Random = System.Random;
 
 namespace Gameboard
 {
-    public class LetterTile : MonoBehaviour
+    public class LetterTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private GameObject upperEffect;
+        [SerializeField] private ParticleSystem tapParticle;
         [SerializeField] private ParticleSystem matchParticle;
         [SerializeField] private ParticleSystem shuffleParticle;
         [SerializeField] private Color unselectedColor;
@@ -115,5 +117,16 @@ namespace Gameboard
             upperEffect.gameObject.SetActive(isActive);
         }
 
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            tapParticle.Play();
+            LeanTween.scale(gameObject, new Vector3(1.2f,1.2f,1f), 0.1f);
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+           // tapParticle.Stop();
+            LeanTween.scale(gameObject, new Vector3(1.0f,1.0f,1.0f), 0.1f);
+        }
     }
 }
