@@ -20,23 +20,23 @@ namespace Splash
         public void PlayAnimation(Action onAnimationComplete)
         {
             _onAnimationComplete = onAnimationComplete;
+            
             StartCoroutine(ShuffleSprite());
             StartCoroutine(PlayLoadingAnimation());
         }
 
         private IEnumerator ShuffleSprite()
         {
-            
             var index = 1;
             
             while (index<5)
             {
-                yield return gameObjectAnimations.PlayFadeOut(0.0015f);
+                yield return gameObjectAnimations.PlayFadeOut(0.5f);
                 
                 loadingImage.sprite = sprites[index% sprites.Length];
                 index++;
                 
-                yield return gameObjectAnimations.PlayFadeIn(0.0015f);
+                yield return gameObjectAnimations.PlayFadeIn(0.5f);
                 
                 yield return new WaitForSeconds(1f);
             }
@@ -70,7 +70,6 @@ namespace Splash
 
         public void Dispose()
         { 
-            StopCoroutine(ShuffleSprite());
             StopCoroutine(PlayLoadingAnimation());
         }
     }
