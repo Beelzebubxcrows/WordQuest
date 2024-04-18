@@ -8,30 +8,16 @@ namespace Utility.Animation
     {
         [SerializeField] private CanvasGroup canvasGroup;
 
-        public IEnumerator PlayFadeOut(float diff)
+        public IEnumerator PlayFadeOut(float duration)
         {
-            var alpha = canvasGroup.alpha;
-            while (alpha > 0)
-            {
-                canvasGroup.alpha = alpha;
-                yield return new WaitForEndOfFrame();
-                alpha -= diff;
-            }
-
-            canvasGroup.alpha = 0f;
+            LeanTween.alphaCanvas(canvasGroup, 0f, duration);
+            yield return new WaitForSeconds(duration);
         }
         
-        public IEnumerator PlayFadeIn(float diff)
+        public IEnumerator PlayFadeIn(float duration)
         {
-            var alpha = canvasGroup.alpha;
-            while (alpha < 1f)
-            {
-                canvasGroup.alpha = alpha;
-                yield return new WaitForEndOfFrame();
-                alpha += diff;
-            }
-
-            canvasGroup.alpha = 1f;
+            LeanTween.alphaCanvas(canvasGroup, 1f, duration);
+            yield return new WaitForSeconds(duration);
         }
     }
 }

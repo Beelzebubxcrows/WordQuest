@@ -717,7 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2badf46ad54a4b9b96d54ce6fac88a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectAnimations: {fileID: 1531747316}
+  gameObjectAnimations: {fileID: 0}
   loadingText: {fileID: 872248268}
   loadingImage: {fileID: 1531747314}
   sprites:
@@ -917,7 +917,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b4c13b4765ba1405891563cfdd7b1acf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ca7d167cd52f9423fac1a64a15e09ca5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
