@@ -20,6 +20,7 @@ namespace Splash
         public void PlayAnimation(Action onAnimationComplete)
         {
             _onAnimationComplete = onAnimationComplete;
+            _onAnimationComplete?.Invoke();
             
             StartCoroutine(ShuffleSprite());
             StartCoroutine(PlayLoadingAnimation());
@@ -29,7 +30,7 @@ namespace Splash
         {
             var index = 1;
             
-            while (index<3)
+            while (true)
             {
                 yield return gameObjectAnimations.PlayFadeOut(0.5f);
                 
@@ -40,9 +41,6 @@ namespace Splash
                 
                 yield return new WaitForSeconds(1f);
             }
-            
-            _onAnimationComplete?.Invoke();
-            _onAnimationComplete = null;
         }
         
 
@@ -70,6 +68,7 @@ namespace Splash
 
         public void Dispose()
         { 
+            StopCoroutine(ShuffleSprite());
             StopCoroutine(PlayLoadingAnimation());
         }
     }
