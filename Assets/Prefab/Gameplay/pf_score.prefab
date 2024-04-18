@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aac3b423a9f4e5ea9abb74f7a7cce73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 2403294368087626055}
+  background: {fileID: 5667513183678038474}
   scoreText: {fileID: 4267703851891251318}
   prefabFlyHelper: {fileID: 4815956799169078842}
 --- !u!114 &4815956799169078842

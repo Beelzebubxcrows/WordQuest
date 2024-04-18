@@ -11,4 +11,7 @@ namespace Events
             Tile = tile;
         }
     }
+    public struct TickClicked
+    {
+    }
 }

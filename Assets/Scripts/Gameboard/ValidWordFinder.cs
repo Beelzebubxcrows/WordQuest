@@ -16,7 +16,7 @@ namespace Gameboard
             _dictionaryHelper = InstanceManager.GetInstanceAsSingle<DictionaryHelper>();
         }
         
-        public List<LetterTile> GetTilesToMakeAValidWord()
+        public List<LetterTile> GetTilesToMakeAValidWord(int minLength)
         {
             
             var allTiles = _tileRegistry.GetTilesByCharacter();
@@ -27,7 +27,7 @@ namespace Gameboard
             string validWord;
             var initialLength = 3;
             while (true) {
-                validWord = GetValidWords(frequency, "", initialLength);
+                validWord = GetValidWords(frequency, "",minLength, initialLength);
                 
                 if (validWord.Length > 0) {
                     break;
@@ -70,10 +70,10 @@ namespace Gameboard
             return tilesToMakeWord;
         }
 
-        private string GetValidWords(IList<int> letters, string word, int length)
+        private string GetValidWords(IList<int> letters, string word, int minLength, int length)
         {
             
-            if (_dictionaryHelper.IsWordValid(word)) {
+            if (word.Length>=minLength && _dictionaryHelper.IsWordValid(word)) {
                 return word;
             }
 
@@ -89,7 +89,7 @@ namespace Gameboard
                 }
                 
                 letters[i]--;
-                var temp = GetValidWords(letters, word + (char)(i+'A'), length - 1);
+                var temp = GetValidWords(letters, word + (char)(i+'A'),minLength, length - 1);
                 if (!string.IsNullOrEmpty(temp) && temp.Length>ans.Length) {
                     ans = temp;
                 }

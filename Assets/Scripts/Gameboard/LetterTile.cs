@@ -44,16 +44,12 @@ namespace Gameboard
             if (!isClickable) {
                 return;
             }
-            Debug.Log($"Clicked on {_character}");
+            
             if (!_isClicked) {
+                Debug.Log($"Clicked on {_character}");
                 _gameplayHandler.AddCharacter(this);
+                _eventBus.Fire(new TileClicked(this));
             }
-            else {
-                _gameplayHandler.RemoveCharacter();
-            }
-            
-            
-            _eventBus.Fire(new TileClicked(this));
         }
 
         public void ToggleOff()
