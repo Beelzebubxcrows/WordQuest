@@ -56,6 +56,8 @@ namespace Powerups
                 tile.OnClick();
                 yield return new WaitForSeconds(0.35f);
             }
+            
+            _gameplayHandler.OnClickCheck();
 
             _powerUpManager.SetPowerUpEligible(true);
             hintButton.interactable = true;
