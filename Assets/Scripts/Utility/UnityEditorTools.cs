@@ -32,10 +32,10 @@ namespace Utility
             while (level <= 100)
             {
                 var random = new Random();
-                var rows = (100-level) / 10;
-                var columns = (100-level) / 10;
-                var target = 20 + level * 5;
-                var moves=0;
+                var rows = random.Next((100-level)/15, (100-level)/20 + 3);
+                var columns = random.Next((100-level)/15, (100-level)/20 + 3);
+                var target = 5 + level * 5;
+                var moves = 0;
                 if (level < 2)
                 {
                     moves = target;

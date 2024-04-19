@@ -4,6 +4,7 @@ using Gameboard;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
+using Utility.Animation;
 using Utility.Dictionary;
 
 namespace Powerups
@@ -33,6 +34,8 @@ namespace Powerups
 
             hintButton.interactable = false;
             _powerUpManager.SetPowerUpEligible(false);
+            
+            StartCoroutine(AnimationManager.PlayButtonFeedback(hintButton.gameObject.transform));
             _gameplayHandler.ResetLetterTile();
             var tilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
             foreach (var tile in tilesOnBoard)

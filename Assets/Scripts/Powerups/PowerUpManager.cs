@@ -5,6 +5,7 @@ namespace Powerups
 {
     public class PowerUpManager : MonoBehaviour, IDisposable
     {
+        [SerializeField] private UndoPowerUp undoPowerUp;
         [SerializeField] private HintPowerUp hintPowerUp;
         [SerializeField] private ShufflePowerUp shufflePowerUp;
         private bool _isPowerUpEligible;
@@ -14,6 +15,7 @@ namespace Powerups
             _isPowerUpEligible = true;
             hintPowerUp.Initialise(this);
             shufflePowerUp.Initialise(this);
+            undoPowerUp.Initialise(this);
         }
 
         public bool IsPowerUpEligible()
@@ -40,6 +42,7 @@ namespace Powerups
         {
             hintPowerUp.Dispose();
             shufflePowerUp.Dispose();
+            undoPowerUp.Dispose();
         }
     }
 }

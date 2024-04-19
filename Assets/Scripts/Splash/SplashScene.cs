@@ -10,8 +10,7 @@ namespace Splash
 {
     public class SplashScene : MonoBehaviour, IDisposable
     {
-
-        [SerializeField] private GameObjectAnimations gameObjectAnimations;
+        [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TMP_Text loadingText;
         [SerializeField] private Image loadingImage;
         [SerializeField] private Sprite[] sprites;
@@ -32,12 +31,12 @@ namespace Splash
             
             while (true)
             {
-                yield return gameObjectAnimations.PlayFadeOut(0.5f);
+                yield return AnimationManager.PlayFadeOut(canvasGroup,0.5f);
                 
                 loadingImage.sprite = sprites[index% sprites.Length];
                 index++;
                 
-                yield return gameObjectAnimations.PlayFadeIn(0.5f);
+                yield return AnimationManager.PlayFadeIn(canvasGroup,0.5f);
                 
                 yield return new WaitForSeconds(1f);
             }
