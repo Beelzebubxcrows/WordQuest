@@ -717,7 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2badf46ad54a4b9b96d54ce6fac88a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectAnimations: {fileID: 1531747316}
+  canvasGroup: {fileID: 1531747317}
   loadingText: {fileID: 872248268}
   loadingImage: {fileID: 1531747314}
   sprites:
@@ -870,7 +870,6 @@ GameObject:
   - component: {fileID: 1531747315}
   - component: {fileID: 1531747314}
   - component: {fileID: 1531747317}
-  - component: {fileID: 1531747316}
   m_Layer: 5
   m_Name: LoadingImage
   m_TagString: Untagged
@@ -935,19 +934,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531747312}
   m_CullTransparentMesh: 1
---- !u!114 &1531747316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531747312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a809e0f78ec34016bfe2e196ec2357a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 1531747317}
 --- !u!225 &1531747317
 CanvasGroup:
   m_ObjectHideFlags: 0

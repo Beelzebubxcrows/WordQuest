@@ -64,6 +64,8 @@ namespace Gameboard
                 return;
             }
 
+            StartCoroutine(AnimationManager.PlayButtonFeedback(tickMark));
+
             var eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
             eventBus.Fire(new TickClicked());
             
@@ -72,13 +74,22 @@ namespace Gameboard
                 _matchOngoing = true;
                 StartCoroutine(OnMatch());
             }else {
-                OnClickClear();
+                var clickedTiles = _tileRegistry.GetSelectedTiles();
+                foreach (var clickedLetterTile in clickedTiles)
+                {
+                    clickedLetterTile.ToggleOff();
+                }
+                
+                ResetLetterTile();
+                _movesLeft -= 1;
+                FlyScore(tickMark,movesLeftText.transform,-1,movesPunchScale,rightColor);
+                TryGameEnd();
             }
         }
 
-        public void OnClickClear()
+        public void ClearSelectedLetters()
         {
-            if (_stringBuilder.Length == 0) {
+            if (!CanUndo()) {
                 return;
             }
 
@@ -89,10 +100,11 @@ namespace Gameboard
             }
 
             ResetLetterTile();
-            _movesLeft -= 1;
-            FlyScore(wrongMark,movesLeftText.transform,-1,movesPunchScale,wrongColor);
+        }
 
-            TryGameEnd();
+        public bool CanUndo()
+        {
+            return _stringBuilder.Length > 0;
         }
         
         
