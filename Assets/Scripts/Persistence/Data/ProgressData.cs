@@ -12,7 +12,13 @@ namespace Persistence.Data
         {
             LatestLevel = 1;
             CurrentLevel = 1;
-            InventoryCount = new Dictionary<InventoryType, int> { { InventoryType.MasteryPoint, 0 } };
+            InventoryCount = new Dictionary<InventoryType, int>
+            {
+                { InventoryType.MasteryPoint, 100 },
+                { InventoryType.HintPowerUp , 5},
+                { InventoryType.ShufflePowerUp ,5},
+                { InventoryType.UndoPowerUp, 5}
+            };
         }
     }
 }

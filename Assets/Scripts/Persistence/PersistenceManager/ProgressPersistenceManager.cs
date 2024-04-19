@@ -6,7 +6,7 @@ namespace Persistence.PersistenceManager
     public class ProgressPersistenceManager : IPersistenceManager
     {
         private ProgressData _progressData;
-        private PersistenceManager _persistenceManager;
+        private readonly PersistenceManager _persistenceManager;
 
         public ProgressPersistenceManager(PersistenceManager persistenceManager)
         {
