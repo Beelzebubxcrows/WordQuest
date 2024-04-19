@@ -39,7 +39,7 @@ namespace Popups
             var random = new Random();
             var pointsGiven = _levelConfig.Target * random.Next(_levelConfig.Level , _levelConfig.Level +3);
             
-            inventoryManager.IncrementInventoryCount(InventoryType.MasteryPoint,pointsGiven);
+            inventoryManager.GrantInventory(InventoryType.MasteryPoint,pointsGiven);
             
             var targetMasteryPoint = masteryPoint + pointsGiven;
             yield return new WaitForSeconds(0.3f);

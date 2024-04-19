@@ -4,7 +4,10 @@ using Utility;
 
 public enum InventoryType
 {
-    MasteryPoint
+    MasteryPoint,
+    UndoPowerUp,
+    ShufflePowerUp,
+    HintPowerUp
 }
 
 namespace DefaultNamespace
@@ -23,13 +26,19 @@ namespace DefaultNamespace
             return _progressPersistenceManager.GetInventoryCount()[inventoryType];
         }
         
-        public void IncrementInventoryCount(InventoryType inventoryType, int inventoryDiff)
+        public void GrantInventory(InventoryType inventoryType, int inventoryDiff)
         {
+            if (inventoryDiff <= 0) {
+                return;
+            }
             _progressPersistenceManager.IncrementInventoryCount(inventoryType, inventoryDiff);
         }
         
-        public void DecrementInventoryCount(InventoryType inventoryType, int inventoryDiff)
+        public void DeductInventory(InventoryType inventoryType, int inventoryDiff)
         {
+            if (inventoryDiff <= 0) {
+                return;
+            }
             _progressPersistenceManager.DecrementInventoryCount(inventoryType, inventoryDiff);
         }
         

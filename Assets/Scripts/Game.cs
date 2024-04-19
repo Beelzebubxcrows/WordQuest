@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using DefaultNamespace;
+using Economy;
 using Level;
 using Persistence.PersistenceManager;
 using Splash;
@@ -66,6 +67,7 @@ public class Game : MonoBehaviour
                 
                 //Inventory System depends on persistence manager
                 InstanceManager.BindInstanceAsSingle(new InventorySystem());
+                InstanceManager.BindInstanceAsSingle(new EconomyManager());
         }
 
         
