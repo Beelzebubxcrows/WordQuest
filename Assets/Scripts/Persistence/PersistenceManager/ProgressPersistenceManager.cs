@@ -44,6 +44,11 @@ namespace Persistence.PersistenceManager
         
         public void DecrementInventoryCount(InventoryType inventoryType, int amount)
         {
+            var currAmount = _progressData.InventoryCount[inventoryType];
+            if (currAmount - amount < 0) {
+                return;
+            }
+            
             _progressData.InventoryCount[inventoryType] -= amount;
             Save();
         }

@@ -5,6 +5,7 @@ namespace Gameboard
 {
     public class LetterTileRegistry : IDisposable
     {
+        private readonly List<string> _wordsMatched = new();
         private readonly List<LetterTile> _tilesOnBoard = new();
         private readonly List<LetterTile> _selectedTiles = new();
 
@@ -78,10 +79,24 @@ namespace Gameboard
 
             return allTiles;
         }
-        
+
+        #region MATCHED WORDS
+
+        public List<string> GetMatchedWordsInLevel()
+        {
+            return _wordsMatched;
+        }
+
+        public void AddMatchedWord(string word)
+        {
+            _wordsMatched.Add(word);
+        }    
+
+        #endregion    
         
         public void Dispose()
         {
+            _wordsMatched.Clear();
             _tilesOnBoard.Clear();
             _selectedTiles.Clear();
         }

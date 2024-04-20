@@ -912,7 +912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf656f3b3f54cc0abc8b1ceaf1c0af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masteryPointText: {fileID: 912698705921883476}
+  masteryPoint: {fileID: 1413132049416220321}
   resultText: {fileID: 3384143791497908777}
   retryButton: {fileID: 5542036366610687212}
   playButton: {fileID: 2767935722956235814}
@@ -1013,15 +1013,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfd3f94f84e3d47518c658dbf6ee9f2f, type: 3}
---- !u!114 &912698705921883476 stripped
+--- !u!114 &1413132049416220321 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7085776127881255379, guid: dfd3f94f84e3d47518c658dbf6ee9f2f, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9035137188862151206, guid: dfd3f94f84e3d47518c658dbf6ee9f2f, type: 3}
   m_PrefabInstance: {fileID: 7998170267998266503}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: a71f3da4204744f59f913b4139685fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &6263210700510313339 stripped

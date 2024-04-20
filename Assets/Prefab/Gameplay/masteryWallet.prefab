@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Skill Point
+  m_text: Skill Points
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c5bf0fe74ee24e4b81e209d47a30d78, type: 2}
   m_sharedMaterial: {fileID: -5268493510314232496, guid: 7c5bf0fe74ee24e4b81e209d47a30d78, type: 2}
@@ -354,6 +354,7 @@ GameObject:
   - component: {fileID: 4040944415323660284}
   - component: {fileID: 6450086624222016361}
   - component: {fileID: 5603313641618310826}
+  - component: {fileID: 9035137188862151206}
   m_Layer: 5
   m_Name: masteryWallet
   m_TagString: Untagged
@@ -404,7 +405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3508811, g: 0.4537789, b: 0.7830189, a: 1}
+  m_Color: {r: 0.5956721, g: 0.78431374, b: 0.34901962, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -421,3 +422,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.3
+--- !u!114 &9035137188862151206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5333496870601233071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71f3da4204744f59f913b4139685fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 7085776127881255379}
