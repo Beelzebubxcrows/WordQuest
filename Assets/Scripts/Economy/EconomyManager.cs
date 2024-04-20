@@ -20,14 +20,13 @@ namespace Economy
             var masteryPoint = _inventorySystem.GetInventoryCount(InventoryType.MasteryPoint);
             if (masteryPoint >= cost) {
                 _inventorySystem.DeductInventory(InventoryType.MasteryPoint, cost);
-                _inventorySystem.GrantInventory(inventoryType, 1);
                 return true;
             }
 
             return false;
         }
 
-        private int GetCost(InventoryType inventoryType)
+        public int GetCost(InventoryType inventoryType)
         {
             switch (inventoryType)
             {

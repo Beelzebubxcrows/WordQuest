@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Configurations;
+using Gameboard.Hud;
 using Level;
 using Persistence.PersistenceManager;
 using TMPro;
@@ -12,8 +13,9 @@ namespace Gameboard
 {
     public class GameBoard : MonoBehaviour
     {
+        [SerializeField] private MasteryPoint masteryPoint;
         [SerializeField] private TMP_Text levelNumber;
-        [SerializeField]private List<GameBoardRow> letterTilesRows;
+        [SerializeField] private List<GameBoardRow> letterTilesRows;
         [SerializeField] private GameplayHandler gameplayHandler;
         
         public string LEVEL_FORMAT = "Level {0}";
@@ -61,6 +63,7 @@ namespace Gameboard
             {
                 letterTilesRow.Initialise();
             }
+            masteryPoint.Initialise();
         }
 
         private void LoadUI()
@@ -85,6 +88,7 @@ namespace Gameboard
 
         public void Dispose()
         {
+            masteryPoint.Dispose();
             InstanceManager.UnbindInstanceAsSingle<ValidWordFinder>();
             InstanceManager.UnbindInstanceAsSingle<TutorialManager>();
             InstanceManager.UnbindInstanceAsSingle<GameplayHandler>();

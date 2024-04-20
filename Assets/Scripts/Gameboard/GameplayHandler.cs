@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using Configurations;
 using Events;
@@ -70,7 +71,11 @@ namespace Gameboard
             if (_dictionaryHelper.IsWordValid(_stringBuilder.ToString()))
             {
                 _matchOngoing = true;
-                StartCoroutine(OnMatch());
+                
+                var clickedTiles = new List<LetterTile>(_tileRegistry.GetSelectedTiles());
+                UpdateDataOnMatch();
+                
+                StartCoroutine(OnMatch(clickedTiles));
             }else {
                 
                 _soundPlayer.PlayFailSound();
@@ -123,30 +128,40 @@ namespace Gameboard
             _soundPlayer.PlayClickSound();
         }
 
-        private IEnumerator OnMatch()
+        private void UpdateDataOnMatch()
+        {
+            _target -= _stringBuilder.Length;
+            _movesLeft -= 1;
+            _tileRegistry.AddMatchedWord(_stringBuilder.ToString());
+            _stringBuilder.Clear();
+            _tileRegistry.ClearSelectedTiles();
+        }
+
+        private IEnumerator OnMatch(List<LetterTile> clickedTiles)
         {
             yield return new WaitForSeconds(0.1f);
 
             _soundPlayer.PlayMatchSound();
-            PlayMatchAnimationOnTiles();
-            StartCoroutine(ShowMatchedWord(_stringBuilder.ToString()));
+            PlayMatchAnimationOnTiles(clickedTiles);
+            StartCoroutine(ShowMatchedWord());
 
             FlyScore(tickMark,targetText.transform,_stringBuilder.Length,playTargetPunchScale,rightColor);
 
             yield return new WaitForSeconds(matchDelay);
 
 
-            _target -= _stringBuilder.Length;
-            _movesLeft -= 1;
+            // _target -= _stringBuilder.Length;
+            // _movesLeft -= 1;
 
-            var clickedTiles = _tileRegistry.GetSelectedTiles();
+            
             foreach (var clickedLetterTile in clickedTiles)
             {
                 clickedLetterTile.OnMatchComplete();
             }
 
-            _stringBuilder.Clear();
-            _tileRegistry.ClearSelectedTiles();
+            // _tileRegistry.AddMatchedWord(_stringBuilder.ToString());
+            // _stringBuilder.Clear();
+            // _tileRegistry.ClearSelectedTiles();
             _matchOngoing = false;
 
             TryGameEnd();
@@ -175,18 +190,17 @@ namespace Gameboard
         }
 
 
-        private void PlayMatchAnimationOnTiles()
+        private void PlayMatchAnimationOnTiles(List<LetterTile> clickedTiles)
         {
-            var clickedTiles = _tileRegistry.GetSelectedTiles();
             foreach (var clickedLetterTile in clickedTiles)
             {
                 clickedLetterTile.PlayMatchAnimation();
             }
         }
 
-        private IEnumerator ShowMatchedWord(string wordMatched)
+        private IEnumerator ShowMatchedWord()
         {
-            var wordAnimated = wordMatched;
+            var wordAnimated = matchedWord.text;
             var count = 2;
             while (count-- > 0)
             {
@@ -224,8 +238,8 @@ namespace Gameboard
         private async void TriggerLose()
         {
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
-            var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
-            var levelOutroPopup = gameObject.GetComponent<OutroPopup>();
+            var outroPopup = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
+            var levelOutroPopup = outroPopup.GetComponent<OutroPopup>();
             levelOutroPopup.Initialise(false,_levelConfig);
         }
 
@@ -235,8 +249,8 @@ namespace Gameboard
             persistenceManager.IncrementLatestLevel();
 
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
-            var gameObject = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
-            var levelOutroPopup = gameObject.GetComponent<OutroPopup>();
+            var outroPopup = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
+            var levelOutroPopup = outroPopup.GetComponent<OutroPopup>();
             levelOutroPopup.Initialise(true,_levelConfig);
         }
 

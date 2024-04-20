@@ -5,7 +5,7 @@ namespace Persistence.PersistenceManager
     public class PlayerPersistenceManager : IPersistenceManager
     {
         private PlayerData _playerData;
-        private Persistence.PersistenceManager.PersistenceManager _persistenceManager;
+        private readonly Persistence.PersistenceManager.PersistenceManager _persistenceManager;
 
         public PlayerPersistenceManager(PersistenceManager persistenceManager)
         {

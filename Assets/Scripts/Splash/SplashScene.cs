@@ -27,6 +27,7 @@ namespace Splash
 
         private IEnumerator ShuffleSprite()
         {
+            yield return new WaitForSeconds(0.5f);
             var index = 1;
             
             while (index<3)

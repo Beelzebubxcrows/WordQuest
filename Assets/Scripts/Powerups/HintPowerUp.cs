@@ -1,37 +1,47 @@
 using System.Collections;
-using System.Collections.Generic;
+using DefaultNamespace;
+using Economy;
 using Gameboard;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
 using Utility.Animation;
-using Utility.Dictionary;
 
 namespace Powerups
 {
     public class HintPowerUp : MonoBehaviour
     {
+        [SerializeField] private GameObject costTag;
+        [SerializeField] private TMP_Text cost;
+        
+        [SerializeField] private GameObject inventoryCountTag;
+        [SerializeField] private TMP_Text inventoryCount;
+        
         [SerializeField] private Button hintButton;
         
         private LetterTileRegistry _tileRegistry;
         private GameplayHandler _gameplayHandler;
-        private DictionaryHelper _dictionaryHelper;
         private PowerUpManager _powerUpManager;
+        private InventorySystem _inventorySystem;
 
         public void Initialise(PowerUpManager powerUpManager)
         {
             _powerUpManager = powerUpManager;
             _tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
             _gameplayHandler = InstanceManager.GetInstanceAsSingle<GameplayHandler>();
-            _dictionaryHelper = InstanceManager.GetInstanceAsSingle<DictionaryHelper>();
+            _inventorySystem = InstanceManager.GetInstanceAsSingle<InventorySystem>();
+            
+            UpdateView();
         }
 
         public void PlayHint()
         {
-            if (!_powerUpManager.IsPowerUpEligible()) {
-                return;
-            }
+            _powerUpManager.ProcessOnClick(InventoryType.HintPowerUp,ExecuteHint,UpdateView);
+        }
 
+        private void ExecuteHint()
+        {
             hintButton.interactable = false;
             _powerUpManager.SetPowerUpEligible(false);
             
@@ -62,8 +72,18 @@ namespace Powerups
             _powerUpManager.SetPowerUpEligible(true);
             hintButton.interactable = true;
         }
-
         
+        
+        private void UpdateView()
+        {
+            var inventory = _inventorySystem.GetInventoryCount(InventoryType.HintPowerUp);
+            inventoryCountTag.gameObject.SetActive(inventory>0);
+            costTag.gameObject.SetActive(inventory<=0);
+            
+            inventoryCount.text = inventory.ToString();
+            cost.text = InstanceManager.GetInstanceAsSingle<EconomyManager>().GetCost(InventoryType.HintPowerUp).ToString();
+        }
+
 
         public void Dispose()
         {

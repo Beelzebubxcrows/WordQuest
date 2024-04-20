@@ -1,19 +1,21 @@
 using System.Collections;
 using Configurations;
 using DefaultNamespace;
+using Gameboard;
+using Gameboard.Hud;
 using Persistence.PersistenceManager;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utility;
-using Random = System.Random;
 
 
 namespace Popups
 {
     public class OutroPopup : MonoBehaviour
     {
-        [SerializeField] private TMP_Text masteryPointText;
+        [SerializeField] private MasteryPoint masteryPoint;
         [SerializeField] private TMP_Text resultText;
         [SerializeField] private GameObject retryButton;
         [SerializeField] private GameObject playButton;
@@ -26,6 +28,12 @@ namespace Popups
             _isLevelWon = isLevelWon;
             SetupUI(isLevelWon);
             StartCoroutine(ShowMasteryPoint());
+            InitialiseComponents();
+        }
+
+        private void InitialiseComponents()
+        {
+            masteryPoint.Initialise();
         }
 
         private IEnumerator ShowMasteryPoint()
@@ -33,23 +41,32 @@ namespace Popups
             if (!_isLevelWon) {
                 yield break;
             }
-            var soundPlayer = InstanceManager.GetInstanceAsSingle<SoundPlayer>();
+            
             var inventoryManager = InstanceManager.GetInstanceAsSingle<InventorySystem>();
-            var masteryPoint = inventoryManager.GetInventoryCount(InventoryType.MasteryPoint);
-            var random = new Random();
-            var pointsGiven = _levelConfig.Target * random.Next(_levelConfig.Level , _levelConfig.Level +3);
+            var tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
+            var wordsMatched = tileRegistry.GetMatchedWordsInLevel();
+            
+            var pointsGiven = 0;
+            foreach (var word in wordsMatched)
+            {
+                var multiplier = 1;
+                switch (word.Length)
+                {
+                    case < 4:
+                        multiplier = 1;
+                        break;
+                    case < 6:
+                        multiplier = 2;
+                        break;
+                    default:
+                        multiplier = 4;
+                        break;
+                }
+                
+                pointsGiven += word.Length * multiplier + _levelConfig.Level * (int)math.ceil(_levelConfig.Level/10.0f);
+            }
             
             inventoryManager.GrantInventory(InventoryType.MasteryPoint,pointsGiven);
-            
-            var targetMasteryPoint = masteryPoint + pointsGiven;
-            yield return new WaitForSeconds(0.3f);
-            while (masteryPoint < targetMasteryPoint)
-            {
-                soundPlayer.PlayClickSound();
-                masteryPointText.text = masteryPoint.ToString();
-                yield return new WaitForSeconds(0.1f);
-                masteryPoint += 20;
-            }
         }
 
         private void SetupUI(bool isLevelWon)
@@ -57,10 +74,6 @@ namespace Popups
             resultText.text = isLevelWon? "YOU WON !" : "TRY AGAIN !";
             retryButton.SetActive(!isLevelWon);
             playButton.SetActive(isLevelWon);
-            
-            var inventoryManager = InstanceManager.GetInstanceAsSingle<InventorySystem>();
-            var masteryPoint = inventoryManager.GetInventoryCount(InventoryType.MasteryPoint);
-            masteryPointText.text = masteryPoint.ToString();
         }
 
 
@@ -69,11 +82,13 @@ namespace Popups
 
         public void OnClickRetry()
         {
+            Dispose();
             SceneManager.LoadScene("Gameplay");
         }
 
         public void OnClickPlay()
         {
+            Dispose();
             var persistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
             var currentLevel = persistenceManager.GetCurrentLevel();
             persistenceManager.SetCurrentLevel(currentLevel+1);
@@ -82,5 +97,11 @@ namespace Popups
         }
 
         #endregion
+
+
+        private void Dispose()
+        {
+            masteryPoint.Dispose();
+        }
     }
 }

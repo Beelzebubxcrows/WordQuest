@@ -1,4 +1,5 @@
 using System;
+using Events;
 using Persistence.PersistenceManager;
 using Utility;
 
@@ -15,10 +16,12 @@ namespace DefaultNamespace
     public class InventorySystem : IDisposable
     {
         private readonly ProgressPersistenceManager _progressPersistenceManager;
-        
+        private readonly EventBus _eventBus;
+
         public InventorySystem()
         {
             _progressPersistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
+            _eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
         }
 
         public int GetInventoryCount(InventoryType inventoryType)
@@ -31,7 +34,9 @@ namespace DefaultNamespace
             if (inventoryDiff <= 0) {
                 return;
             }
+            
             _progressPersistenceManager.IncrementInventoryCount(inventoryType, inventoryDiff);
+            _eventBus.Fire(new InventoryGranted(inventoryType, inventoryDiff));
         }
         
         public void DeductInventory(InventoryType inventoryType, int inventoryDiff)
@@ -39,7 +44,9 @@ namespace DefaultNamespace
             if (inventoryDiff <= 0) {
                 return;
             }
+            
             _progressPersistenceManager.DecrementInventoryCount(inventoryType, inventoryDiff);
+            _eventBus.Fire(new InventoryDeducted(inventoryType, inventoryDiff));
         }
         
         public void Dispose()
