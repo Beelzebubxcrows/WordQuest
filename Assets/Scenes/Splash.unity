@@ -248,6 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicAudioSource: {fileID: 794514549}
   gameEffectsAudioSource: {fileID: 794514550}
+  failAudioClip: {fileID: 8300000, guid: aad85e79e80104fcebf0b5589d19afcb, type: 3}
   typingAudioClip: {fileID: 8300000, guid: b4f557fe3d6724e368003b98f8f5c1ca, type: 3}
   ambientAudioClip: {fileID: 8300000, guid: 353bf643cf5524dedbba45854b14677a, type: 3}
   matchAudioClip: {fileID: 8300000, guid: 9d7ed5b8efb4d447bb7b8373b9b5a3a0, type: 3}

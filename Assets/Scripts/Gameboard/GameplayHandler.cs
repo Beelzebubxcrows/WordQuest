@@ -16,10 +16,8 @@ namespace Gameboard
     public class GameplayHandler : MonoBehaviour, IDisposable
     {
         [SerializeField] private GameObject FTUEMarkOnTick;
-        [SerializeField] private Color wrongColor;
         [SerializeField] private Color rightColor;
         
-        [SerializeField] private Transform wrongMark;
         [SerializeField] private Transform tickMark;
         
         [SerializeField] private PunchScale playTargetPunchScale;
@@ -74,6 +72,9 @@ namespace Gameboard
                 _matchOngoing = true;
                 StartCoroutine(OnMatch());
             }else {
+                
+                _soundPlayer.PlayFailSound();
+                
                 var clickedTiles = _tileRegistry.GetSelectedTiles();
                 foreach (var clickedLetterTile in clickedTiles)
                 {

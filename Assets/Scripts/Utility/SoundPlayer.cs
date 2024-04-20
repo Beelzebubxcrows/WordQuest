@@ -7,7 +7,9 @@ namespace Utility
     {
         [SerializeField] private AudioSource musicAudioSource;
         [SerializeField] private AudioSource gameEffectsAudioSource;
-        
+
+
+        [SerializeField] private AudioClip failAudioClip;
         [SerializeField] private AudioClip typingAudioClip;
         [SerializeField] private AudioClip ambientAudioClip;
         [SerializeField]private AudioClip matchAudioClip;
@@ -51,6 +53,11 @@ namespace Utility
             gameEffectsAudioSource.Play();
         }
         
+        
+        public void PlayFailSound()
+        {
+            PlayGameEffectsAudioSource(failAudioClip);
+        }
 
         #endregion
 
