@@ -19,7 +19,7 @@ namespace Splash
         public void PlayAnimation(Action onAnimationComplete)
         {
             _onAnimationComplete = onAnimationComplete;
-            _onAnimationComplete?.Invoke();
+            
             
             StartCoroutine(ShuffleSprite());
             StartCoroutine(PlayLoadingAnimation());
@@ -29,7 +29,7 @@ namespace Splash
         {
             var index = 1;
             
-            while (true)
+            while (index<3)
             {
                 yield return AnimationManager.PlayFadeOut(canvasGroup,0.5f);
                 
@@ -40,6 +40,7 @@ namespace Splash
                 
                 yield return new WaitForSeconds(1f);
             }
+            _onAnimationComplete?.Invoke();
         }
         
 
