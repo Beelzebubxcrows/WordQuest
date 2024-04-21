@@ -72,10 +72,15 @@ namespace Gameboard
             {
                 _matchOngoing = true;
                 
+                //Caching values for animation.
                 var clickedTiles = new List<LetterTile>(_tileRegistry.GetSelectedTiles());
+                var score = _stringBuilder.Length;
+                
+                //Update data.
                 UpdateDataOnMatch();
                 
-                StartCoroutine(OnMatch(clickedTiles));
+                //Update in view.
+                StartCoroutine(OnMatch(clickedTiles, score));
             }else {
                 
                 _soundPlayer.PlayFailSound();
@@ -137,7 +142,7 @@ namespace Gameboard
             _tileRegistry.ClearSelectedTiles();
         }
 
-        private IEnumerator OnMatch(List<LetterTile> clickedTiles)
+        private IEnumerator OnMatch(List<LetterTile> clickedTiles, int score)
         {
             yield return new WaitForSeconds(0.1f);
 
@@ -145,7 +150,7 @@ namespace Gameboard
             PlayMatchAnimationOnTiles(clickedTiles);
             StartCoroutine(ShowMatchedWord());
 
-            FlyScore(tickMark,targetText.transform,_stringBuilder.Length,playTargetPunchScale,rightColor);
+            FlyScore(tickMark,targetText.transform,score,playTargetPunchScale,rightColor);
 
             yield return new WaitForSeconds(matchDelay);
 
@@ -263,6 +268,15 @@ namespace Gameboard
         {
             FTUEMarkOnTick.gameObject.SetActive(toggle);
         }
+
+        public void ToggleAllTilesOnBoard(bool isClickable)
+        {
+            var allTilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
+            foreach (var tile in allTilesOnBoard) {
+                tile.isClickable = isClickable;
+            }
+        }
+
 
         public void Dispose()
         {

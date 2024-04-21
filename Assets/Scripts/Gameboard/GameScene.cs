@@ -17,6 +17,7 @@ namespace Gameboard
 
         private async void Initialise()
         {
+            InstanceManager.BindInstanceAsSingle(powerUpManager);
             InstanceManager.BindInstanceAsSingle(new LetterTileRegistry());
             selectionHandler.Initialise();
             InstanceManager.GetInstanceAsSingle<SoundPlayer>().PlayAmbientMusic();
@@ -43,6 +44,7 @@ namespace Gameboard
 
         private void Dispose()
         {
+            InstanceManager.UnbindInstanceAsSingle<PowerUpManager>();
             InstanceManager.UnbindInstanceAsSingle<LetterTileRegistry>();
             powerUpManager.Dispose();
             selectionHandler.Dispose();

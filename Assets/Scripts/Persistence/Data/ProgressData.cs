@@ -14,7 +14,7 @@ namespace Persistence.Data
             CurrentLevel = 1;
             InventoryCount = new Dictionary<InventoryType, int>
             {
-                { InventoryType.MasteryPoint, 500 },
+                { InventoryType.MasteryPoint, 150 },
                 { InventoryType.HintPowerUp , 5},
                 { InventoryType.ShufflePowerUp ,5},
                 { InventoryType.UndoPowerUp, 5}
