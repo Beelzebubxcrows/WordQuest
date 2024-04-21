@@ -46,7 +46,7 @@ namespace Powerups
             hintButton.interactable = false;
             _powerUpManager.SetPowerUpEligible(false);
             
-            StartCoroutine(AnimationManager.PlayButtonFeedback(hintButton.gameObject.transform));
+            StartCoroutine(AnimationManager.PlayPunchScale(hintButton.gameObject.transform));
             _gameplayHandler.ResetLetterTile();
             var tilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
             foreach (var tile in tilesOnBoard)

@@ -42,7 +42,7 @@ namespace Powerups
         private void ExecuteShuffle()
         {
             _powerUpManager.SetPowerUpEligible(false);
-            StartCoroutine(AnimationManager.PlayButtonFeedback(shuffleButton.gameObject.transform));
+            StartCoroutine(AnimationManager.PlayPunchScale(shuffleButton.gameObject.transform));
             _gameplayHandler.ResetLetterTile();
             
             var tilesOnBoard = _tileRegistry.GetAllTilesOnBoard();

@@ -16,6 +16,7 @@ namespace Gameboard
 {
     public class GameplayHandler : MonoBehaviour, IDisposable
     {
+        [SerializeField] private Sprite scoreSprite;
         [SerializeField] private GameObject FTUEMarkOnTick;
         [SerializeField] private Color rightColor;
         
@@ -63,7 +64,7 @@ namespace Gameboard
                 return;
             }
 
-            StartCoroutine(AnimationManager.PlayButtonFeedback(tickMark));
+            StartCoroutine(AnimationManager.PlayPunchScale(tickMark));
 
             var eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
             eventBus.Fire(new TickClicked());
@@ -173,7 +174,7 @@ namespace Gameboard
         }
 
 
-        private Score _spawnedScore;
+        
         private LevelConfig _levelConfig;
         private PunchScale _punchScale;
 
@@ -181,14 +182,13 @@ namespace Gameboard
         {
             _punchScale = punchScale;
             var scoreGameObject = await _assetManager.InstantiateAsync("pf_score",parent);
-            _spawnedScore = scoreGameObject.GetComponent<Score>();
-            _spawnedScore.Initialise(score, target, OnReached);
-            _spawnedScore.SetColor(color);
+            var spawnedScore = scoreGameObject.GetComponent<Score>();
+            spawnedScore.Initialise(score.ToString(),scoreSprite, target, OnReached,0.6f);
         }
 
-        private void OnReached()
+        private void OnReached(GameObject spawnedGameObject)
         {
-            _assetManager.ReleaseAsset(_spawnedScore.gameObject);
+            _assetManager.ReleaseAsset(spawnedGameObject);
             StartCoroutine(_punchScale.PlayPunchScale());
             targetText.text = Math.Max(0, _target).ToString();
             movesLeftText.text = Math.Max(0, _movesLeft).ToString();

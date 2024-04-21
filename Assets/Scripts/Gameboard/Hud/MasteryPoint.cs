@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Globalization;
 using DefaultNamespace;
 using Events;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using Utility;
 
@@ -10,6 +12,7 @@ namespace Gameboard.Hud
     public class MasteryPoint : MonoBehaviour
     {
 
+        
         [SerializeField] private TMP_Text inventory;
 
         private InventorySystem _inventorySystem;
@@ -27,7 +30,7 @@ namespace Gameboard.Hud
             
             SyncDataViewWithPersistence();
         }
-        
+
         private void SyncDataViewWithPersistence()
         {
             _masteryPoints = _inventorySystem.GetInventoryCount(InventoryType.MasteryPoint);
@@ -42,42 +45,35 @@ namespace Gameboard.Hud
         {
             if (obj.InventoryType == InventoryType.MasteryPoint)
             {
-                StartCoroutine(PlayDeductionAnimation(obj.Amount));
+                StartCoroutine(PlayDeductionAnimation(obj.Amount,2));
             }
         }
         
 
         private void OnInventoryGranted(InventoryGranted obj)
         {
-            if (obj.InventoryType == InventoryType.MasteryPoint)
-            {
-                StartCoroutine(PlayGrantAnimation(obj.Amount));
-            }
         }
 
         
-        private IEnumerator PlayGrantAnimation(int pointsGiven)
+        public IEnumerator PlayGrantAnimation(int pointsGiven, float timeDuration)
         {
-            var timeDuration = 2;
-            var fromMasteryPoint = _masteryPoints;
+            var fromMasteryPoint = _masteryPoints * 1.0f;
             
             var targetMasteryPoint = fromMasteryPoint + pointsGiven;
-            var diff = pointsGiven / timeDuration;
+            var diff = (int)math.floor(pointsGiven / timeDuration * 1.0f);
             while (fromMasteryPoint < targetMasteryPoint)
             {
-                _soundPlayer.PlayClickSound();
-                inventory.text = fromMasteryPoint.ToString();
+                inventory.text = fromMasteryPoint.ToString(CultureInfo.InvariantCulture);
                 yield return new WaitForSeconds(0.1f);
                 fromMasteryPoint += diff;
             }
             
             SyncDataViewWithPersistence();
         }
-        
-        
-        private IEnumerator PlayDeductionAnimation(int pointsDeduced)
+
+
+        private IEnumerator PlayDeductionAnimation(int pointsDeduced, int timeDuration)
         {
-            var timeDuration = 2;
             var fromMasteryPoint = _masteryPoints;
             
             var targetMasteryPoint = fromMasteryPoint - pointsDeduced;
