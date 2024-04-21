@@ -482,7 +482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &872248267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Loading
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a58544e13b0394a22ad4052d6bdd4e92, type: 2}
   m_sharedMaterial: {fileID: 2757960449827205259, guid: a58544e13b0394a22ad4052d6bdd4e92, type: 2}
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 70
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -718,13 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2badf46ad54a4b9b96d54ce6fac88a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 1531747317}
   loadingText: {fileID: 872248268}
-  loadingImage: {fileID: 1531747314}
-  sprites:
-  - {fileID: 21300000, guid: ca7d167cd52f9423fac1a64a15e09ca5, type: 3}
-  - {fileID: 21300000, guid: aa1615e80a4594541868ba741920ef14, type: 3}
-  - {fileID: 21300000, guid: 5067e7a09c8e44401a340f2c48964487, type: 3}
 --- !u!1 &1292928029
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,7 +911,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e3105f1ed88964777af4c2d83f6e513a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c4142c039eeee4c029978f6b980e58ce, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

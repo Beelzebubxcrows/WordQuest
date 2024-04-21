@@ -6,7 +6,7 @@ namespace Utility.Animation
 {
     public class PrefabFlyHelper : MonoBehaviour
     {
-        public IEnumerator FlyPrefabToPosition(Transform endPosition, float time, Transform prefabToFly, Action onReached, Action onEverySecondElapsed)
+        public IEnumerator FlyPrefabToPosition(Transform endPosition, float time, Transform prefabToFly, Action<GameObject> onReached, Action onEverySecondElapsed)
         {
             // Store initial position and time elapsed
             var startPosition = prefabToFly.position;
@@ -38,7 +38,7 @@ namespace Utility.Animation
 
             // Ensure final position is exact and not based on approximation
             prefabToFly.position = endPosition.position;
-            onReached?.Invoke();
+            onReached?.Invoke(prefabToFly.gameObject);
         }
 
         private Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)

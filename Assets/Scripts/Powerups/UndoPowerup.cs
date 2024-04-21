@@ -47,7 +47,7 @@ namespace Powerups
             hintButton.interactable = false;
             _powerUpManager.SetPowerUpEligible(false);
 
-            StartCoroutine(AnimationManager.PlayButtonFeedback(hintButton.gameObject.transform));
+            StartCoroutine(AnimationManager.PlayPunchScale(hintButton.gameObject.transform));
             _gameplayHandler.ClearSelectedLetters();
             
             _powerUpManager.SetPowerUpEligible(true);

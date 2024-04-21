@@ -11,21 +11,13 @@ namespace Gameboard
         [SerializeField] private Image background;
         [SerializeField] private TMP_Text scoreText;
         [SerializeField] private PrefabFlyHelper prefabFlyHelper;
-
+        
        
-        public void Initialise(int score, Transform scoreTransform, Action onReached)
+        public void Initialise(string score,Sprite sprite, Transform scoreTransform, Action<GameObject> onReached, float timeDuration)
         {
-            scoreText.text = score.ToString();
-            StartCoroutine(prefabFlyHelper.FlyPrefabToPosition(scoreTransform, 0.6f, transform, onReached, OnEverySecond));
-        }
-
-        public void SetColor(Color color)
-        {
-            background.color = color;
-        }
-
-        private void OnEverySecond()
-        {
+            background.sprite = sprite;
+            scoreText.text = score;
+            StartCoroutine(prefabFlyHelper.FlyPrefabToPosition(scoreTransform, timeDuration, transform, onReached, null));
         }
     }
 }

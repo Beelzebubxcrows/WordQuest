@@ -18,7 +18,7 @@ namespace Utility.Animation
             yield return new WaitForSeconds(duration);
         }
 
-        public static IEnumerator PlayButtonFeedback(Transform button)
+        public static IEnumerator PlayPunchScale(Transform button)
         {
             LeanTween.scale(button.gameObject, new Vector3(1.2f,1.2f,1f), 0.1f);
             yield return new WaitForSeconds(0.1f);
