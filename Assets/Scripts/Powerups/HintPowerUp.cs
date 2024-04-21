@@ -42,6 +42,7 @@ namespace Powerups
 
         private void ExecuteHint()
         {
+            _gameplayHandler.ToggleAllTilesOnBoard(false);
             hintButton.interactable = false;
             _powerUpManager.SetPowerUpEligible(false);
             
@@ -63,7 +64,9 @@ namespace Powerups
 
             foreach (var tile in letterTiles)
             {
+                tile.isClickable = true;
                 tile.OnClick();
+                tile.isClickable = false;
                 yield return new WaitForSeconds(0.35f);
             }
             
@@ -71,6 +74,7 @@ namespace Powerups
 
             _powerUpManager.SetPowerUpEligible(true);
             hintButton.interactable = true;
+            _gameplayHandler.ToggleAllTilesOnBoard(true);
         }
         
         

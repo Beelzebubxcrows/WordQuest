@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Events;
 using Gameboard;
+using Powerups;
 using Utility;
 
 namespace Tutorial
@@ -14,18 +15,22 @@ namespace Tutorial
         private readonly EventBus _eventBus;
         private readonly LetterTileRegistry _tileRegistry;
         private readonly GameplayHandler _gameplayHandler;
+        private readonly PowerUpManager _powerUpManager;
 
         public TutorialManager(GameplayHandler gameplayHandler)
         {
             _gameplayHandler = gameplayHandler;
             _tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
             _eventBus = InstanceManager.GetInstanceAsSingle<EventBus>();
+            _powerUpManager = InstanceManager.GetInstanceAsSingle<PowerUpManager>();
         }
         
 
         public void StartTutorial()
         {
             ToggleAllTilesOnBoard(false);
+            _powerUpManager.SetPowerUpEligible(false);
+            
 
             _markedTiles = new List<LetterTile>();
             _eventBus.Register<TileClicked>(OnTileClick);
@@ -46,10 +51,7 @@ namespace Tutorial
 
         private void ToggleAllTilesOnBoard(bool isClickable)
         {
-            var allTilesOnBoard = _tileRegistry.GetAllTilesOnBoard();
-            foreach (var tile in allTilesOnBoard) {
-                tile.isClickable = isClickable;
-            }
+            _gameplayHandler.ToggleAllTilesOnBoard(isClickable);
         }
 
         private void StartSteps(int tileIndex)
@@ -66,6 +68,7 @@ namespace Tutorial
 
         private void MarkTutorialComplete()
         {
+            _powerUpManager.SetPowerUpEligible(true);
             ToggleAllTilesOnBoard(true);
             _eventBus.Unregister<TileClicked>(OnTileClick);
             _eventBus.Unregister<TickClicked>(OnTickClick);
