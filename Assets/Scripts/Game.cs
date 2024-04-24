@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Core;
 using DefaultNamespace;
 using Economy;
 using Level;
@@ -12,18 +13,21 @@ using Utility.Dictionary;
 
 public class Game : MonoBehaviour
 {
+        [SerializeField]private ScreenManager screenManager;
         [SerializeField] private SplashScene splashScene;
         [SerializeField] private SoundPlayer soundPlayer;
         private DictionaryHelper _dictionaryHelper;
         private PersistenceManager _persistentManager;
 
         private int _mutexCounter;
+        private ScreenManager _screenManager;
         private const int TASK_COUNT = 2;
 
         private void Start()
         { 
                 _mutexCounter = 0;
                 DontDestroyOnLoad(this);
+                
                 BindDependencies();
                 
                 splashScene.PlayAnimation(OnAnimationComplete);
@@ -55,6 +59,7 @@ public class Game : MonoBehaviour
         {
                 InstanceManager.BindInstanceAsSingle(new EventBus());
                 InstanceManager.BindInstanceAsSingle(new AssetManager());
+                _screenManager = InstanceManager.BindInstanceAsSingle( screenManager);
          
                 InstanceManager.BindInstanceAsSingle(new RandomCharacterSelector());
                 
@@ -77,7 +82,7 @@ public class Game : MonoBehaviour
                 var latestLevel = persistenceManager.GetLatestLevel();
                 persistenceManager.SetCurrentLevel(latestLevel);
                 
-                SceneManager.LoadScene("Gameplay");
+                _screenManager.ShowScreenWithTransition("Gameplay", 1);
         }
 
        

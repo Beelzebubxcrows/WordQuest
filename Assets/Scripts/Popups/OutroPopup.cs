@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using Configurations;
+using Core;
 using DefaultNamespace;
 using Gameboard;
 using Gameboard.Hud;
@@ -9,7 +9,6 @@ using Persistence.PersistenceManager;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utility;
 using Utility.Animation;
 
@@ -150,7 +149,8 @@ namespace Popups
             }
             
             Dispose();
-            SceneManager.LoadScene("Gameplay");
+            var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
+            screenManager.ShowScreenWithTransition("Gameplay",3);
         }
 
         public void OnClickPlay()
@@ -164,7 +164,8 @@ namespace Popups
             var currentLevel = persistenceManager.GetCurrentLevel();
             persistenceManager.SetCurrentLevel(currentLevel+1);
 
-            SceneManager.LoadScene("Gameplay");
+            var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
+            screenManager.ShowScreenWithTransition("Gameplay",2);
         }
 
         #endregion

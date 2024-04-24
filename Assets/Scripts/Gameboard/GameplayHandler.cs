@@ -242,10 +242,12 @@ namespace Gameboard
 
         private async void TriggerLose()
         {
+            
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             var outroPopup = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = outroPopup.GetComponent<OutroPopup>();
             levelOutroPopup.Initialise(false,_levelConfig);
+            _soundPlayer.PlayMatchSound();
         }
 
         private async void TriggerWin()
@@ -257,6 +259,8 @@ namespace Gameboard
             var outroPopup = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = outroPopup.GetComponent<OutroPopup>();
             levelOutroPopup.Initialise(true,_levelConfig);
+            
+            _soundPlayer.PlayMatchSound();
         }
 
         private bool IsInteractionEligible()
