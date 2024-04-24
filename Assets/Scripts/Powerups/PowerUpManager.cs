@@ -53,6 +53,16 @@ namespace Powerups
                 return;
             }
             
+            #if UNITY_EDITOR
+            
+            _soundManager.PlayShuffleSound();
+            executePowerUp?.Invoke();
+            updatePowerUpView?.Invoke();
+            return;
+            
+            #endif
+            
+            
             var inventory = _inventorySystem.GetInventoryCount(inventoryType);
             
             if (inventory > 0) {
