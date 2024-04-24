@@ -26,12 +26,13 @@ namespace Splash
             var count = 0;
             var loadingTextValue = "Loading";
             
-            while (true)
+            while (_onAnimationComplete!= null)
             {
                 count %= 4;
                 if (count == 0) {
                     loadingTextValue = "Loading";
                     _onAnimationComplete?.Invoke();
+                    _onAnimationComplete = null;
                 }
                 
                 loadingText.text = loadingTextValue;

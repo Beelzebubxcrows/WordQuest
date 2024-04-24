@@ -17,6 +17,18 @@ namespace Utility.Animation
             LeanTween.alphaCanvas(canvasGroup, 1f, duration);
             yield return new WaitForSeconds(duration);
         }
+        
+        public static IEnumerator PlayScaleIn(GameObject gameObject, float duration)
+        {
+            LeanTween.scale(gameObject, new Vector3(1.0f,1.0f,1.0f), duration);
+            yield return new WaitForSeconds(duration);
+        }
+        
+        public static IEnumerator PlayScaleOut(GameObject gameObject, float duration)
+        {
+            LeanTween.scale(gameObject, new Vector3(0.0f,0.0f,0.0f), duration);
+            yield return new WaitForSeconds(duration);
+        }
 
         public static IEnumerator PlayPunchScale(Transform button)
         {
