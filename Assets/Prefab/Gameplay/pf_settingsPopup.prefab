@@ -1559,6 +1559,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7325680835150807799, guid: b4cef6b82d6084e8da3482ab779192c2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5283323244174555871}
+    - target: {fileID: 7325680835150807799, guid: b4cef6b82d6084e8da3482ab779192c2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickQuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7325680835150807799, guid: b4cef6b82d6084e8da3482ab779192c2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Popups.SettingsPopup, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8360921979514734869, guid: b4cef6b82d6084e8da3482ab779192c2, type: 3}
       propertyPath: m_Name
       value: homeButton
