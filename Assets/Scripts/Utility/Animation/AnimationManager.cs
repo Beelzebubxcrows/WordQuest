@@ -18,15 +18,15 @@ namespace Utility.Animation
             yield return new WaitForSeconds(duration);
         }
         
-        public static IEnumerator PlayScaleIn(GameObject gameObject, float duration)
+        public static IEnumerator PlayScaleIn(GameObject gameObject, float duration, Vector3 scale)
         {
-            LeanTween.scale(gameObject, new Vector3(1.0f,1.0f,1.0f), duration);
+            LeanTween.scale(gameObject, scale, duration);
             yield return new WaitForSeconds(duration);
         }
         
-        public static IEnumerator PlayScaleOut(GameObject gameObject, float duration)
+        public static IEnumerator PlayScaleOut(GameObject gameObject, float duration, Vector3 scale)
         {
-            LeanTween.scale(gameObject, new Vector3(0.0f,0.0f,0.0f), duration);
+            LeanTween.scale(gameObject, scale, duration);
             yield return new WaitForSeconds(duration);
         }
 
@@ -36,5 +36,17 @@ namespace Utility.Animation
             yield return new WaitForSeconds(0.1f);
             LeanTween.scale(button.gameObject, new Vector3(1.0f,1.0f,1.0f), 0.1f);
         }
+        
+        public static IEnumerator PlayPopupInAnimation(CanvasGroup canvasGroup, GameObject animationParent, MonoBehaviour monoBehaviour)
+        {
+            monoBehaviour.StartCoroutine(PlayFadeIn(canvasGroup, 0.2f));
+            monoBehaviour.StartCoroutine(PlayScaleIn(animationParent, 0.2f, new Vector3(1.05f, 1.05f, 1.05f)));
+            yield return new WaitForSeconds(0.2f);
+            monoBehaviour.StartCoroutine(PlayScaleOut(animationParent, 0.2f, new Vector3(1f,1f,1f)));
+        }
+
+        
+        
+        
     }
 }
