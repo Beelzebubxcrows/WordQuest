@@ -54,6 +54,10 @@ namespace Popups
 
         private async void FlyPointToMasteryPointHud()
         {
+            if (!_isLevelWon) {
+                return;
+            }
+            
             _isAnimationPlaying = true;
             await Task.Delay(TimeSpan.FromSeconds(0.5f));
             _assetProvider = InstanceManager.GetInstanceAsSingle<AssetManager>();

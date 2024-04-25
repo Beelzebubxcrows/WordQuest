@@ -35,16 +35,6 @@ namespace Gameboard
             powerUpManager.Initialise();
         }
 
-        public void OpenSettings()
-        {
-            
-        }
-
-        public void OpenInfoPanel()
-        {
-            
-        }
-
         private void OnDestroy()
         {
             Dispose();

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Configurations;
+using Core;
 using Events;
 using Persistence.PersistenceManager;
 using Popups;
@@ -279,6 +280,17 @@ namespace Gameboard
             foreach (var tile in allTilesOnBoard) {
                 tile.isClickable = isClickable;
             }
+        }
+        
+        public void OpenSettings()
+        {
+            var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
+            screenManager.ShowPopup<SettingsPopup>("pf_settingsPopup",gameplayCanvas);
+        }
+
+        public void OpenInfoPanel()
+        {
+            
         }
 
 
