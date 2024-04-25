@@ -23,6 +23,11 @@ namespace Core
             StartCoroutine(transition.PlayTransitionIn(()=>SceneManager.LoadSceneAsync(sceneName),hintSetToUse));
         }
 
+        public void DoAfterTransition(Action action, int hintSetToUse)
+        {
+            StartCoroutine(transition.PlayTransitionIn(action,hintSetToUse));
+        }
+
         public void PlayTransitionOut()
         {
             StartCoroutine(transition.PlayTransitionOut(null));
