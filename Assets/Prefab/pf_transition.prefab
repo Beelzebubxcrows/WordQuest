@@ -478,11 +478,7 @@ MonoBehaviour:
   hintSet3:
   - Mistapped ? Made a wrong word ? Reset it with undo powerup.
   - Need new set of letters ? Click on shuffle powerup.
-  - 'We can a make word for you ! Use '
-  hints:
-  - To reset word, use undo powerup.
-  - To get new set of letters, play shuffle powerup.
-  - Want a hint? Play hint powerup.
+  - We can a make word for you ! Use hint powerup.
   hintText: {fileID: 2516854171932028207}
   canvasGroup: {fileID: 584223209520918642}
 --- !u!1 &6670867937857874341

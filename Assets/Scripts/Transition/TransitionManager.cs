@@ -88,13 +88,13 @@ namespace Transition
 
         public IEnumerator PlayTransitionOut(Action onTransitionComplete)
         {
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-            
             StartCoroutine(AnimationManager.PlayFadeOut(canvasGroup, 0.5f));
             
             yield return new WaitForSeconds(0.3f);
             onTransitionComplete?.Invoke();
+            
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
         }
         
     }

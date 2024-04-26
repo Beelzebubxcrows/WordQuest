@@ -21,13 +21,17 @@ namespace Core.Screens
         }
 
 
-        protected IEnumerator HandlePopupClose()
+        protected void HandlePopupClose()
+        {
+            StartCoroutine(HandCloseImpl());
+        }
+
+        private IEnumerator HandCloseImpl()
         {
             StartCoroutine(AnimationManager.PlayFadeOut(canvasGroup, 0.2f));
             StartCoroutine(AnimationManager.PlayScaleOut( animationParent, 0.2f,Vector3.zero));
             yield return new WaitForSeconds(0.2f);
             Dispose();
-            
         }
 
 
