@@ -38,7 +38,7 @@ namespace Popups
         public void OnClickClose()
         {
             UpdateStatesInPersistence();
-            StartCoroutine(HandlePopupClose());
+            HandlePopupClose();
         }
 
         private void UpdateStatesInPersistence()

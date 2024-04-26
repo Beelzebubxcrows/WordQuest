@@ -290,7 +290,8 @@ namespace Gameboard
 
         public void OpenInfoPanel()
         {
-            
+            var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
+            screenManager.ShowPopup<HintPopup>("pf_hintPopup",gameplayCanvas);
         }
 
 
