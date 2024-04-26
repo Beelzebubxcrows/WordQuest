@@ -1,4 +1,5 @@
 using System;
+using Persistence.PersistenceManager;
 using UnityEngine;
 
 namespace Utility
@@ -49,6 +50,11 @@ namespace Utility
 
         private void PlayGameEffectsAudioSource(AudioClip audioClip)
         {
+            var playerPersistenceManager = InstanceManager.GetInstanceAsSingle<PlayerPersistenceManager>();
+            if (!playerPersistenceManager.GetEffectsState()) {
+                return;
+            }
+            
             gameEffectsAudioSource.clip = audioClip;
             gameEffectsAudioSource.Play();
         }
@@ -65,6 +71,13 @@ namespace Utility
 
         public void PlayAmbientMusic()
         {
+            Debug.Log("Play ambient music");
+            var playerPersistenceManager = InstanceManager.GetInstanceAsSingle<PlayerPersistenceManager>();
+            if (!playerPersistenceManager.GetMusicState()) {
+                return;
+            }
+
+            Debug.Log("Played ambient music");
             musicAudioSource.clip = ambientAudioClip;
             musicAudioSource.Play();
         }
@@ -73,11 +86,24 @@ namespace Utility
         #endregion
         
         
+        public void HandleStateChanged()
+        {
+            var playerPersistenceManager = InstanceManager.GetInstanceAsSingle<PlayerPersistenceManager>();
+            var musicState = playerPersistenceManager.GetMusicState();
+            
+            if (!musicState) {
+                musicAudioSource.Stop();
+            } else if (!musicAudioSource.isPlaying) {
+                PlayAmbientMusic();
+            }
+
+        }
+        
+        
         public void Dispose()
         {
             
         }
-
         
     }
 }

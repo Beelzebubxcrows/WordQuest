@@ -39,6 +39,7 @@ namespace Utility.Animation
         
         public static IEnumerator PlayPopupInAnimation(CanvasGroup canvasGroup, GameObject animationParent, MonoBehaviour monoBehaviour)
         {
+            monoBehaviour.StartCoroutine(PlayScaleIn(animationParent, 0f, new Vector3(0.6f, 0.6f, 0.6f)));
             monoBehaviour.StartCoroutine(PlayFadeIn(canvasGroup, 0.2f));
             monoBehaviour.StartCoroutine(PlayScaleIn(animationParent, 0.2f, new Vector3(1.05f, 1.05f, 1.05f)));
             yield return new WaitForSeconds(0.2f);
