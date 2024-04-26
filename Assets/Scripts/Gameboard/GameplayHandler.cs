@@ -179,8 +179,8 @@ namespace Gameboard
         
         private LevelConfig _levelConfig;
         private PunchScale _punchScale;
-        public bool shouldOpenSettings;
-        public bool shouldOpenInfo;
+        public bool shouldOpenSettings = true;
+        public bool shouldOpenInfo = true;
 
         private async void FlyScore(Transform parent, Transform target, int score, PunchScale punchScale, Color color)
         {
