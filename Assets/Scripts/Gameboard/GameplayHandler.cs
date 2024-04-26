@@ -9,6 +9,7 @@ using Persistence.PersistenceManager;
 using Popups;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utility;
 using Utility.Animation;
 using Utility.Dictionary;
@@ -178,6 +179,8 @@ namespace Gameboard
         
         private LevelConfig _levelConfig;
         private PunchScale _punchScale;
+        public bool shouldOpenSettings;
+        public bool shouldOpenInfo;
 
         private async void FlyScore(Transform parent, Transform target, int score, PunchScale punchScale, Color color)
         {
@@ -282,14 +285,21 @@ namespace Gameboard
             }
         }
         
+        
         public void OpenSettings()
         {
+            if (!shouldOpenSettings) {
+                return;
+            }
             var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
             screenManager.ShowPopup<SettingsPopup>("pf_settingsPopup",gameplayCanvas);
         }
 
         public void OpenInfoPanel()
         {
+            if (!shouldOpenInfo) {
+                return;
+            }
             var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
             screenManager.ShowPopup<HintPopup>("pf_hintPopup",gameplayCanvas);
         }

@@ -30,6 +30,8 @@ namespace Tutorial
         {
             ToggleAllTilesOnBoard(false);
             _powerUpManager.SetPowerUpEligible(false);
+            _gameplayHandler.shouldOpenInfo = false;
+            _gameplayHandler.shouldOpenSettings = false;
             
 
             _markedTiles = new List<LetterTile>();
@@ -68,8 +70,11 @@ namespace Tutorial
 
         private void MarkTutorialComplete()
         {
+            _gameplayHandler.shouldOpenInfo = true;
+            _gameplayHandler.shouldOpenSettings = true;
             _powerUpManager.SetPowerUpEligible(true);
             ToggleAllTilesOnBoard(true);
+            
             _eventBus.Unregister<TileClicked>(OnTileClick);
             _eventBus.Unregister<TickClicked>(OnTickClick);
             _tilesToMakeAWord.Clear();
