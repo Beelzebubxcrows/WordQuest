@@ -1750,11 +1750,10 @@ MonoBehaviour:
   animationParent: {fileID: 6073075625475169654}
   canvasGroup: {fileID: 584223209520918642}
   hints:
-  - Show off your skill ! Achieve the targets in limited moves.
-  - You can find Target and Moves at the top of game screen.
-  - Don't shy away from taking help, when stuck use powerups. Powerups are at the
-    screen below.
-  - Mistapped ? Made a wrong word ? Reset it with undo powerup.
+  - Achieve the targets in limited moves.
+  - Target and Moves are at the top of game screen.
+  - When stuck, use powerups. Powerups are at the screen below.
+  - Made a wrong word ? Reset it with undo powerup.
   - We can a make word for you ! Use hint powerup.
   - Need new letters? Use Shuffle powerup!
   hintText: {fileID: 2516854171932028207}
