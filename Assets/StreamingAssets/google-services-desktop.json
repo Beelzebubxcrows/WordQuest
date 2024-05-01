@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "958844211801",
+    "project_id": "wordiest-5210a",
+    "storage_bucket": "wordiest-5210a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958844211801:android:fac10bc301a17e81f1d748",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.WordQuest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZi0Lb69FOTbhbWf7j9hTROtAQHKh6Drw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

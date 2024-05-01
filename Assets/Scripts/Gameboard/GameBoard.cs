@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Configurations;
+using Core.Firebase;
 using Gameboard.Hud;
 using Level;
 using Persistence.PersistenceManager;
@@ -34,7 +35,10 @@ namespace Gameboard
             InitialiseComponents();
             LoadUI();
             CheckForTutorial();
+
+            OnGameBoardSetupComplete();
         }
+        
 
         private void CheckForTutorial()
         {
@@ -85,6 +89,13 @@ namespace Gameboard
             levelNumber.text = string.Format(LEVEL_FORMAT,
                 _progressPersistenceManager.GetCurrentLevel());
         }
+        
+        private void OnGameBoardSetupComplete()
+        {
+            var firebaseManager = InstanceManager.GetInstanceAsSingle<FirebaseManager>();
+            firebaseManager.LogPuzzleStarted(_levelConfig.Level);
+        }
+        
 
         public void Dispose()
         {

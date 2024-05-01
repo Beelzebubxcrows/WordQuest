@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using Configurations;
 using Core;
+using Core.Firebase;
 using Events;
 using Persistence.PersistenceManager;
 using Popups;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utility;
 using Utility.Animation;
 using Utility.Dictionary;
@@ -52,6 +52,7 @@ namespace Gameboard
             movesLeftText.text = levelConfig.Moves.ToString();
             _movesLeft = levelConfig.Moves;
 
+            _firebaseManager = InstanceManager.GetInstanceAsSingle<FirebaseManager>();
             _assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             _tileRegistry = InstanceManager.GetInstanceAsSingle<LetterTileRegistry>();
             _soundPlayer = InstanceManager.GetInstanceAsSingle<SoundPlayer>();
@@ -156,20 +157,14 @@ namespace Gameboard
             FlyScore(tickMark,targetText.transform,score,playTargetPunchScale,rightColor);
 
             yield return new WaitForSeconds(matchDelay);
-
-
-            // _target -= _stringBuilder.Length;
-            // _movesLeft -= 1;
+            
 
             
             foreach (var clickedLetterTile in clickedTiles)
             {
                 clickedLetterTile.OnMatchComplete();
             }
-
-            // _tileRegistry.AddMatchedWord(_stringBuilder.ToString());
-            // _stringBuilder.Clear();
-            // _tileRegistry.ClearSelectedTiles();
+            
             _matchOngoing = false;
 
             TryGameEnd();
@@ -181,6 +176,7 @@ namespace Gameboard
         private PunchScale _punchScale;
         public bool shouldOpenSettings = true;
         public bool shouldOpenInfo = true;
+        private FirebaseManager _firebaseManager;
 
         private async void FlyScore(Transform parent, Transform target, int score, PunchScale punchScale, Color color)
         {
@@ -244,28 +240,48 @@ namespace Gameboard
             }
         }
 
+        #region LEVEL LOSS
+
         private async void TriggerLose()
         {
-            
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             var outroPopup = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = outroPopup.GetComponent<OutroPopup>();
             levelOutroPopup.Initialise(false,_levelConfig);
+            
             _soundPlayer.PlayMatchSound();
+            
+            _firebaseManager.LogPuzzleLost(_levelConfig.Level);
         }
 
-        private async void TriggerWin()
-        {
-            var persistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
-            persistenceManager.IncrementLatestLevel();
+        #endregion
 
+        
+        #region LEVEL WIN
+
+        private void TriggerWin()
+        {
+            UpdateDataPostWin();
+            OpenLevelOutroPostWin();
+            _soundPlayer.PlayMatchSound();
+            _firebaseManager.LogPuzzleWon(_levelConfig.Level);
+        }
+
+        private async void OpenLevelOutroPostWin()
+        {
             var assetManager = InstanceManager.GetInstanceAsSingle<AssetManager>();
             var outroPopup = await assetManager.InstantiateAsync("pf_outroPopup", gameplayCanvas);
             var levelOutroPopup = outroPopup.GetComponent<OutroPopup>();
             levelOutroPopup.Initialise(true,_levelConfig);
-            
-            _soundPlayer.PlayMatchSound();
         }
+
+        private static void UpdateDataPostWin()
+        {
+            var persistenceManager = InstanceManager.GetInstanceAsSingle<ProgressPersistenceManager>();
+            persistenceManager.IncrementLatestLevel();
+        }
+
+        #endregion
 
         private bool IsInteractionEligible()
         {
