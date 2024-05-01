@@ -1,18 +1,17 @@
-using System;
-using System.Threading.Tasks;
 using Core;
+using Core.Firebase;
 using DefaultNamespace;
 using Economy;
 using Level;
 using Persistence.PersistenceManager;
 using Splash;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utility;
 using Utility.Dictionary;
 
 public class Game : MonoBehaviour
 {
+        [SerializeField]private FirebaseManager firebaseManager;
         [SerializeField]private ScreenManager screenManager;
         [SerializeField] private SplashScene splashScene;
         [SerializeField] private SoundPlayer soundPlayer;
@@ -31,7 +30,7 @@ public class Game : MonoBehaviour
                 BindDependencies();
                 
                 splashScene.PlayAnimation(OnAnimationComplete);
-                ReadFiles();
+                RunAsyncJobs();
         }
 
         private void OnAnimationComplete()
@@ -39,8 +38,9 @@ public class Game : MonoBehaviour
                 OnMutexTaskComplete();
         }
 
-        private async void ReadFiles()
+        private async void RunAsyncJobs()
         {
+                firebaseManager.Initialise();
                 await _dictionaryHelper.ReadFile();
                 await _persistentManager.LoadPersistence();
                 OnMutexTaskComplete();
@@ -57,6 +57,7 @@ public class Game : MonoBehaviour
         
         private void BindDependencies()
         {
+                InstanceManager.BindInstanceAsSingle(firebaseManager);
                 InstanceManager.BindInstanceAsSingle(new EventBus());
                 InstanceManager.BindInstanceAsSingle(new AssetManager());
                 _screenManager = InstanceManager.BindInstanceAsSingle( screenManager);

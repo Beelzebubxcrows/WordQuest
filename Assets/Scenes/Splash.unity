@@ -1141,6 +1141,7 @@ GameObject:
   - component: {fileID: 1652726392}
   - component: {fileID: 1652726393}
   - component: {fileID: 1652726394}
+  - component: {fileID: 1652726395}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -1175,6 +1176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffc0cb9f1724bb3a0a345f58df19c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firebaseManager: {fileID: 1652726395}
   screenManager: {fileID: 1652726394}
   splashScene: {fileID: 1217221260}
   soundPlayer: {fileID: 794514548}
@@ -1192,6 +1194,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionCanvas: {fileID: 1752235187}
   transition: {fileID: 1587870099}
+--- !u!114 &1652726395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652726391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 938a1b1cef7a48f09401a7ab782a3e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1752235187
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using Core;
+using Core.Firebase;
 using Powerups;
 using UnityEngine;
 using Utility;
@@ -14,13 +15,6 @@ namespace Gameboard
         private void Awake()
         {
             Initialise();
-            OnInitialiseComplete();
-        }
-
-        private void OnInitialiseComplete()
-        {
-            var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
-            screenManager.PlayTransitionOut();
         }
 
         private async void Initialise()
@@ -33,7 +27,16 @@ namespace Gameboard
             await gameBoard.Initialise();
             
             powerUpManager.Initialise();
+            
+            OnInitialiseComplete();
         }
+        
+        private void OnInitialiseComplete()
+        {
+            var screenManager = InstanceManager.GetInstanceAsSingle<ScreenManager>();
+            screenManager.PlayTransitionOut();
+        }
+        
 
         private void OnDestroy()
         {
