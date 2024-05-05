@@ -52,11 +52,6 @@ namespace Tutorial
             _gameplayHandler.StartCoroutine(_gameplayHandler.OpenInfoPanelAfterDelay(1f));
         }
 
-        private void ClickOnHelpSection()
-        {
-            _gameplayHandler.OpenInfoPanel();
-        }
-
         private void ToggleAllTilesOnBoard(bool isClickable)
         {
             _gameplayHandler.ToggleAllTilesOnBoard(isClickable);
