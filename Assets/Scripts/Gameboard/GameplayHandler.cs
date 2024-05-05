@@ -320,6 +320,12 @@ namespace Gameboard
             screenManager.ShowPopup<HintPopup>("pf_hintPopup",gameplayCanvas);
         }
 
+        public IEnumerator OpenInfoPanelAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            OpenInfoPanel();
+        }
+
 
         public void Dispose()
         {

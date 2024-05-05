@@ -49,6 +49,12 @@ namespace Tutorial
         {
             _gameplayHandler.ToggleFTUEMarkOnTick(false);
             MarkTutorialComplete();
+            _gameplayHandler.StartCoroutine(_gameplayHandler.OpenInfoPanelAfterDelay(1f));
+        }
+
+        private void ClickOnHelpSection()
+        {
+            _gameplayHandler.OpenInfoPanel();
         }
 
         private void ToggleAllTilesOnBoard(bool isClickable)
