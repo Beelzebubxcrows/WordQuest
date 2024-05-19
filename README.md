@@ -1,5 +1,7 @@
 # WordQuest
-Welcome to the Word Game! This repository contains the source code for a fun and challenging word game built with Unity. The game features multiple levels, special powers, and various difficulty settings, providing an engaging experience for players of all skill levels.
+Welcome to the Word Game! This repository contains the source code for a fun and challenging word game built with Unity. 
+Objective is to score a target before you run out of moves.
+The game features multiple levels, special powers, and various difficulty settings, providing an engaging experience for players of all skill levels.
 
 - To play the game hop over to : [Google play store link](https://play.google.com/store/apps/details?id=com.DefaultCompany.WordQuest)
 - To see the code, switch to branch : `releases/android/2.0.0`
